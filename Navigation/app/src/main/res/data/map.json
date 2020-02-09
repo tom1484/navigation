@@ -1,0 +1,22 @@
+{
+    "events":
+    {
+        "shelf":
+        [
+            {
+                "index": 0,
+                "name": "test",
+                "description": "test shelf",
+                "contents":
+                [
+                    {
+                        "index": 0,
+                        "name": "test",
+                        "description": "test content",
+                        "price": 25
+                    }
+                ]
+            }
+        ]
+    }
+}
