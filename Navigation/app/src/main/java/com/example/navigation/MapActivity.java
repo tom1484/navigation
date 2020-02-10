@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MapActivity extends AppCompatActivity {
 
     Map map;
+    MapEvent person;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +18,9 @@ public class MapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_map);
 
         map = (Map) findViewById(R.id.map);
+
+        person = new MapEvent("person", 300f, 300f, 30f);
+        map.addEvent(person);
 
     }
 

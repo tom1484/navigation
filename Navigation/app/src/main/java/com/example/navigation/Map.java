@@ -25,6 +25,8 @@ import java.util.ArrayList;
 
 public class Map extends View {
 
+    private Canvas canvas;
+
     private GlobalVariable globalVariable;
     private ArrayList<MapEvent> mapEvents;
 
@@ -47,22 +49,26 @@ public class Map extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        float[] point = {300, 300, 1};
-        transformMatrix.mapPoints(point);
-
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(20);
-        canvas.drawPoint(point[0], point[1], paint);
-
-        drawEvents(canvas);
+        this.canvas = canvas;
+        drawEvents();
     }
 
-    public void drawEvents(Canvas canvas) {
+    public void drawEvent(MapEvent mapEvent) {
 
-        for (MapEvent event: mapEvents) {
-            event.draw(canvas, transformMatrix);
+        mapEvent.draw(canvas, transformMatrix);
+
+    }
+
+    public void addEvent(MapEvent mapEvent) {
+
+        mapEvents.add(mapEvent);
+
+    }
+
+    public void drawEvents() {
+
+        for (MapEvent mapEvent: mapEvents) {
+            mapEvent.draw(canvas, transformMatrix);
         }
 
     }
