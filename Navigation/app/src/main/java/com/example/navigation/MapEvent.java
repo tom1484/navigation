@@ -79,7 +79,7 @@ public class MapEvent {
 
     }
 
-    public Paint getPaint() {
+    private Paint getPaint() {
 
         Paint paint = new Paint();
         switch (type) {

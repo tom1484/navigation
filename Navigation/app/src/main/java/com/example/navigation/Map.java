@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Matrix;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -27,6 +28,10 @@ public class Map extends View {
 
     private Canvas canvas;
 
+    private float mapWidth;
+    private float mapHeight;
+    private  float realToScreenScalar;
+
     private GlobalVariable globalVariable;
     private ArrayList<MapEvent> mapEvents;
 
@@ -38,7 +43,6 @@ public class Map extends View {
 
     public Map(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         globalVariable = (GlobalVariable) context.getApplicationContext();
         loadEvents();
 
@@ -53,10 +57,28 @@ public class Map extends View {
         drawEvents();
     }
 
-    public void drawEvent(MapEvent mapEvent) {
+    public void centerPosition(float x, float y, float width) {
 
-        mapEvent.draw(canvas, transformMatrix);
+        mapWidth = getWidth();
+        mapHeight = getHeight();
 
+        realToScreenScalar = Math.min(
+                mapWidth / width,
+                mapHeight / width
+        );
+
+        transformMatrix = new Matrix();
+        transformMatrix.postTranslate(
+                mapWidth / 2f - x * realToScreenScalar,
+                mapHeight / 2f - y * realToScreenScalar
+        );
+        transformMatrix.postScale(
+                realToScreenScalar, realToScreenScalar,
+                mapWidth / 2f - x * realToScreenScalar,
+                mapHeight / 2f - y * realToScreenScalar
+        );
+
+        invalidate();
     }
 
     public void addEvent(MapEvent mapEvent) {
@@ -65,7 +87,7 @@ public class Map extends View {
 
     }
 
-    public void drawEvents() {
+    private void drawEvents() {
 
         for (MapEvent mapEvent: mapEvents) {
             mapEvent.draw(canvas, transformMatrix);
@@ -176,7 +198,7 @@ public class Map extends View {
 //        Log.i("TAG", globalVariable.mapEvents.toString());
     }
 
-    public String getJsonString(int id) {
+    private String getJsonString(int id) {
 
         InputStream is = getResources().openRawResource(id);
         Writer writer = new StringWriter();
