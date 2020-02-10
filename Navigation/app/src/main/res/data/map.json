@@ -1,21 +1,30 @@
 {
-    "events":
-    {
-        "shelf":
-        [
+    "width": 5.0,
+    "height": 5.0,
+    "events": {
+        "shelves": [
             {
-                "index": 0,
+                "id": 0,
+                "name": "",
+                "description": "",
+                "items": [],
+                "x": 0.0,
+                "y": 0.0,
+                "width": 0.0,
+                "height": 0.0
+            },
+            {
+                "id": 0,
                 "name": "test",
-                "description": "test shelf",
-                "contents":
-                [
-                    {
-                        "index": 0,
-                        "name": "test",
-                        "description": "test content",
-                        "price": 25
-                    }
-                ]
+                "description": "test",
+                "items": [
+                    0,
+                    1
+                ],
+                "x": 0.0,
+                "y": 0.0,
+                "width": 100.0,
+                "height": 100.0
             }
         ]
     }
