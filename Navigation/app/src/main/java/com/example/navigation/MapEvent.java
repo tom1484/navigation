@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
+import android.util.Pair;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +27,10 @@ public class MapEvent {
     public float y;
     public float width;
     public float height;
+
+    public float strokeWidth;
+
+    public ArrayList<Pair<PointF, PointF>> paths;
 
     public MapEvent(int _id, String _type, String _name, String _description, JSONArray _items, float _x, float _y, float _width, float _height) {
 
@@ -47,16 +53,17 @@ public class MapEvent {
 
     }
 
-    public MapEvent(String _type, float _x, float _y, float _width) {
-        id = -1;
+    public MapEvent(String _type, float _x, float _y, float _strokeWidth) {
         type = _type;
-        name = "";
-        description = "";
-        items = null;
         x = _x;
         y = _y;
-        width = _width;
-        height = 0f;
+        strokeWidth = _strokeWidth;
+    }
+
+    public MapEvent(String _type, ArrayList<Pair<PointF, PointF>> _paths, float _strokeWidth) {
+        type = _type;
+        paths = _paths;
+        strokeWidth = _strokeWidth;
     }
 
     public void draw(Canvas canvas, Matrix transformMatrix) {
@@ -73,7 +80,20 @@ public class MapEvent {
             case "person":
                 float[] point = {x, y};
                 transformMatrix.mapPoints(point);
-                canvas.drawCircle(point[0], point[1], width / 2, getPaint());
+                canvas.drawCircle(point[0], point[1], strokeWidth / 2, getPaint());
+                break;
+            case "path":
+                for (Pair<PointF, PointF> line: paths) {
+                    float[] start = new float[] {line.first.x, line.first.y};
+                    float[] stop = new float[] {line.second.x, line.second.y};
+                    transformMatrix.mapPoints(start);
+                    transformMatrix.mapPoints(stop);
+                    canvas.drawLine(
+                            start[0], start[1],
+                            stop[0], stop[1],
+                            getPaint()
+                    );
+                }
                 break;
         }
 
@@ -90,7 +110,10 @@ public class MapEvent {
             case "person":
                 paint.setStyle(Paint.Style.FILL);
                 paint.setColor(Color.argb(255, 0, 128, 255));
-                paint.setStrokeWidth(width);
+                break;
+            case "path":
+                paint.setColor(Color.argb(255, 0, 0, 0));
+                paint.setStrokeWidth(strokeWidth);
                 break;
         }
 

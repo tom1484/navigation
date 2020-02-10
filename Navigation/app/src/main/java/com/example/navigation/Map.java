@@ -82,17 +82,13 @@ public class Map extends View {
     }
 
     public void addEvent(MapEvent mapEvent) {
-
         mapEvents.add(mapEvent);
-
     }
 
     private void drawEvents() {
-
         for (MapEvent mapEvent: mapEvents) {
             mapEvent.draw(canvas, transformMatrix);
         }
-
     }
 
     @Override
