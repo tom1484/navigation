@@ -3,7 +3,6 @@ package com.example.navigation;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -12,6 +11,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.TextureView;
+import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,30 +30,48 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Map extends TextureView {
+public class Map extends View {
 
     private GlobalVariable globalVariable;
     private ArrayList<MapEvent> mapEvents;
 
-    private Matrix transformMatrix;
-    private Point lastPivot;
+    private Matrix matrixOp;
+    private float[][] transformMatrix;
 
-    public Map(Context context) {
-        this(context, null);
-    }
+    private float[] lastPivot;
+    private float lastPointerDis;
 
     public Map(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public Map(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        super(context, attrs);
 
         globalVariable = (GlobalVariable) context.getApplicationContext();
         loadEvents();
 
-        transformMatrix = new Matrix();
+        matrixOp = new Matrix();
+        transformMatrix = matrixOp.identity(3);
 
+//        String mes = "";
+//        for (int i = 0; i < transformMatrix.length; i ++)
+//            for (int j = 0; j < transformMatrix[0].length; j ++)
+//                mes += String.valueOf(transformMatrix[i][j]) + ' ';
+//        Log.i("TAG", mes);
+
+
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        float[] point = {300, 300, 1};
+        point = matrixOp.multiply(transformMatrix, point);
+//        Log.i("TAG", String.valueOf(point[0]) + " " + String.valueOf(point[1]));
+
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(20);
+        canvas.drawPoint(point[0], point[1], paint);
     }
 
     private MapEvent checkOnTouchEvent() {
@@ -65,57 +83,73 @@ public class Map extends TextureView {
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
 
-//        Log.i("TAG", motionEvent.toString());
+        if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
 
-        Point pivot = getPosFromMotionEvent(motionEvent);
-        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-            lastPivot = getPosFromMotionEvent(motionEvent);
-        }
+            float[] nowPivot = getPivotFromMotion(motionEvent);
+            float nowPointerDis = getPointerDisFromMotion(motionEvent);
 
-        if (motionEvent.getPointerCount() == 1) {
-//            Log.i("TAG", String.valueOf(motionEvent == lastMotion));
-            transformMatrix.preTranslate(
-                    pivot.x - lastPivot.x,
-                    pivot.y - lastPivot.y
+            transformMatrix = matrixOp.translate(
+                    transformMatrix,
+                    nowPivot[0] - lastPivot[0],
+                    nowPivot[1] - lastPivot[1]
             );
+            Log.i("TAG", matrixOp.toString(transformMatrix));
+
+            if (motionEvent.getPointerCount() == 2) {
+                float scalar = nowPointerDis / lastPointerDis;
+
+                transformMatrix = matrixOp.translate(
+                        transformMatrix,
+                        -nowPivot[0], -nowPivot[1]
+                );
+//                Log.i("TAG", matrixOp.toString(transformMatrix));
+                transformMatrix = matrixOp.scale(
+                        transformMatrix,
+                        scalar, scalar
+                );
+                transformMatrix = matrixOp.translate(
+                        transformMatrix,
+                        nowPivot[0], nowPivot[1]
+                );
+
+            }
+
         }
 
-        draw();
-        lastPivot = getPosFromMotionEvent(motionEvent);
+        lastPivot = getPivotFromMotion(motionEvent);
+        lastPointerDis = getPointerDisFromMotion(motionEvent);
 
+        invalidate();
         return true;
     }
 
-    private Point getPosFromMotionEvent(MotionEvent motionEvent) {
+    private float[] getPivotFromMotion(MotionEvent motionEvent) {
 
         if (motionEvent.getPointerCount() == 1) {
-            return new Point(
-                    (int)motionEvent.getX(),
-                    (int)motionEvent.getY()
-            );
+            return new float[] {
+                    motionEvent.getX(),
+                    motionEvent.getY()
+            };
         } else {
-            return new Point(
-                    (int)(motionEvent.getX(0) + motionEvent.getX(1)) / 2,
-                    (int)(motionEvent.getY(0) + motionEvent.getY(1)) / 2
-            );
+            return new float[]{
+                    (motionEvent.getX(0) + motionEvent.getX(1)) / 2,
+                    (motionEvent.getY(0) + motionEvent.getY(1)) / 2
+            };
         }
 
     }
 
-    private void draw() {
-        Canvas canvas = lockCanvas(new Rect(0, 0, getWidth(), getHeight()));
+    private float getPointerDisFromMotion(MotionEvent motionEvent) {
 
-        float[] point = {300, 300};
-        Log.i("TAG", transformMatrix.toString());
-        transformMatrix.mapPoints(point, point);
+        if (motionEvent.getPointerCount() == 2) {
+            return (float)Math.sqrt(
+                    (double)Math.pow(motionEvent.getX(0) - motionEvent.getX(1), (double)2.0) +
+                    (double)Math.pow(motionEvent.getY(0) - motionEvent.getY(1), (double)2.0)
+            );
+        } else {
+            return 1;
+        }
 
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(20);
-        canvas.drawPoint(point[0], point[1], paint);
-
-        unlockCanvasAndPost(canvas);
     }
 
     private void loadEvents() {
