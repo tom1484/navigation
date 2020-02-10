@@ -1,0 +1,31 @@
+{
+    "width": 5.0,
+    "height": 5.0,
+    "events": [
+        {
+            "id": 0,
+            "type": "format",
+            "name": "",
+            "description": "",
+            "items": [],
+            "x": 0.0,
+            "y": 0.0,
+            "width": 0.0,
+            "height": 0.0
+        },
+        {
+            "id": 0,
+            "type": "shelf",
+            "name": "test",
+            "description": "test",
+            "items": [
+                0,
+                1
+            ],
+            "x": 0.0,
+            "y": 0.0,
+            "width": 100.0,
+            "height": 100.0
+        }
+    ]
+}
