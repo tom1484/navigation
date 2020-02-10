@@ -4,13 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.os.Build;
+import android.graphics.Matrix;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.TextureView;
 import android.view.View;
 
 import org.json.JSONArray;
@@ -18,7 +14,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -26,17 +21,15 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Map extends View {
 
     private GlobalVariable globalVariable;
     private ArrayList<MapEvent> mapEvents;
 
-    private Matrix matrixOp;
-    private float[][] transformMatrix;
+    private Matrix transformMatrix;
+    private int motionPointerCount = -1;
 
     private float[] lastPivot;
     private float lastPointerDis;
@@ -47,16 +40,7 @@ public class Map extends View {
         globalVariable = (GlobalVariable) context.getApplicationContext();
         loadEvents();
 
-        matrixOp = new Matrix();
-        transformMatrix = matrixOp.identity(3);
-
-//        String mes = "";
-//        for (int i = 0; i < transformMatrix.length; i ++)
-//            for (int j = 0; j < transformMatrix[0].length; j ++)
-//                mes += String.valueOf(transformMatrix[i][j]) + ' ';
-//        Log.i("TAG", mes);
-
-
+        transformMatrix = new Matrix();
     }
 
     @Override
@@ -64,60 +48,56 @@ public class Map extends View {
         super.onDraw(canvas);
 
         float[] point = {300, 300, 1};
-        point = matrixOp.multiply(transformMatrix, point);
-//        Log.i("TAG", String.valueOf(point[0]) + " " + String.valueOf(point[1]));
+        transformMatrix.mapPoints(point);
 
         Paint paint = new Paint();
         paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(20);
         canvas.drawPoint(point[0], point[1], paint);
+
+        drawEvents(canvas);
     }
 
-    private MapEvent checkOnTouchEvent() {
+    public void drawEvents(Canvas canvas) {
 
-        return null;
+        for (MapEvent event: mapEvents) {
+            event.draw(canvas, transformMatrix);
+        }
 
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
 
-        if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
+        if (motionEvent.getPointerCount() == motionPointerCount) {
 
             float[] nowPivot = getPivotFromMotion(motionEvent);
             float nowPointerDis = getPointerDisFromMotion(motionEvent);
 
-            transformMatrix = matrixOp.translate(
-                    transformMatrix,
+            transformMatrix.postTranslate(
                     nowPivot[0] - lastPivot[0],
                     nowPivot[1] - lastPivot[1]
             );
-            Log.i("TAG", matrixOp.toString(transformMatrix));
 
             if (motionEvent.getPointerCount() == 2) {
                 float scalar = nowPointerDis / lastPointerDis;
-
-                transformMatrix = matrixOp.translate(
-                        transformMatrix,
-                        -nowPivot[0], -nowPivot[1]
-                );
-//                Log.i("TAG", matrixOp.toString(transformMatrix));
-                transformMatrix = matrixOp.scale(
-                        transformMatrix,
-                        scalar, scalar
-                );
-                transformMatrix = matrixOp.translate(
-                        transformMatrix,
+                transformMatrix.postScale(
+                        scalar, scalar,
                         nowPivot[0], nowPivot[1]
                 );
-
             }
 
         }
 
         lastPivot = getPivotFromMotion(motionEvent);
         lastPointerDis = getPointerDisFromMotion(motionEvent);
+        motionPointerCount = motionEvent.getPointerCount();
+
+        // no pointer touching
+        if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+            motionPointerCount = 0;
+        }
 
         invalidate();
         return true;
@@ -131,7 +111,7 @@ public class Map extends View {
                     motionEvent.getY()
             };
         } else {
-            return new float[]{
+            return new float[] {
                     (motionEvent.getX(0) + motionEvent.getX(1)) / 2,
                     (motionEvent.getY(0) + motionEvent.getY(1)) / 2
             };
@@ -143,8 +123,8 @@ public class Map extends View {
 
         if (motionEvent.getPointerCount() == 2) {
             return (float)Math.sqrt(
-                    (double)Math.pow(motionEvent.getX(0) - motionEvent.getX(1), (double)2.0) +
-                    (double)Math.pow(motionEvent.getY(0) - motionEvent.getY(1), (double)2.0)
+                    Math.pow(motionEvent.getX(0) - motionEvent.getX(1), 2.0) +
+                    Math.pow(motionEvent.getY(0) - motionEvent.getY(1), 2.0)
             );
         } else {
             return 1;
@@ -174,10 +154,10 @@ public class Map extends View {
                         jsonEvent.getString("name"),
                         jsonEvent.getString("description"),
                         jsonEvent.getJSONArray("items"),
-                        jsonEvent.getDouble("x"),
-                        jsonEvent.getDouble("y"),
-                        jsonEvent.getDouble("width"),
-                        jsonEvent.getDouble("height")
+                        (float)jsonEvent.getDouble("x"),
+                        (float)jsonEvent.getDouble("y"),
+                        (float)jsonEvent.getDouble("width"),
+                        (float)jsonEvent.getDouble("height")
                 );
 
                 mapEvents.add(mapEvent);

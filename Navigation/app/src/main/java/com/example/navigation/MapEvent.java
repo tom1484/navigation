@@ -1,5 +1,12 @@
 package com.example.navigation;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,14 +20,12 @@ public class MapEvent {
     public String name;
     public String description;
     public ArrayList<Integer> items;
-    public double x;
-    public double y;
-    public double width;
-    public double height;
+    public float x;
+    public float y;
+    public float width;
+    public float height;
 
-    public MapEvent() {}
-
-    public MapEvent(int _id, String _type, String _name, String _description, JSONArray _items, double _x, double _y, double _width, double _height) {
+    public MapEvent(int _id, String _type, String _name, String _description, JSONArray _items, float _x, float _y, float _width, float _height) {
 
         id = _id;
         type = _type;
@@ -39,6 +44,34 @@ public class MapEvent {
         width = _width;
         height = _height;
 
+    }
+
+    public void draw(Canvas canvas, Matrix transformMatrix) {
+
+        switch (type) {
+            case "shelf":
+                RectF rectF = new RectF(
+                        x - width / 2, y - height / 2,
+                        x + width / 2, y + height / 2
+                );
+                transformMatrix.mapRect(rectF);
+                canvas.drawRect(rectF, getPaint());
+                break;
+        }
+
+    }
+
+    public Paint getPaint() {
+
+        Paint paint = new Paint();
+        switch (type) {
+            case "shelf":
+                paint.setStyle(Paint.Style.FILL);
+                paint.setColor(Color.argb(255, 255, 88, 9));
+                break;
+        }
+
+        return paint;
     }
 
     public String toString() {
