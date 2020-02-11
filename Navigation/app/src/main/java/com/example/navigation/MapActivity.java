@@ -32,10 +32,10 @@ public class MapActivity extends AppCompatActivity {
         map.addEvent(person);
 
         ArrayList<Pair<PointF, PointF>> paths = new ArrayList<>();
-        paths.add(new Pair<PointF, PointF>(new PointF(0f, 0f), new PointF(13f, 0f)));
-        paths.add(new Pair<PointF, PointF>(new PointF(13f, 0f), new PointF(13f, 8f)));
-        paths.add(new Pair<PointF, PointF>(new PointF(13f, 8f), new PointF(0f, 8f)));
-        paths.add(new Pair<PointF, PointF>(new PointF(0f, 8f), new PointF(0f, 0f)));
+        paths.add(new Pair<>(new PointF(0f, 0f), new PointF(13f, 0f)));
+        paths.add(new Pair<>(new PointF(13f, 0f), new PointF(13f, 8f)));
+        paths.add(new Pair<>(new PointF(13f, 8f), new PointF(0f, 8f)));
+        paths.add(new Pair<>(new PointF(0f, 8f), new PointF(0f, 0f)));
         border = new MapEvent("path", paths, 5f);
         map.addEvent(border);
 
