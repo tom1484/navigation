@@ -77,11 +77,13 @@ public class MapEvent {
                 transformMatrix.mapRect(rectF);
                 canvas.drawRect(rectF, getPaint());
                 break;
+
             case "person":
                 float[] point = {x, y};
                 transformMatrix.mapPoints(point);
                 canvas.drawCircle(point[0], point[1], strokeWidth / 2, getPaint());
                 break;
+
             case "path":
                 for (Pair<PointF, PointF> line: paths) {
                     float[] start = new float[] {line.first.x, line.first.y};
@@ -107,13 +109,16 @@ public class MapEvent {
                 paint.setStyle(Paint.Style.FILL);
                 paint.setColor(Color.argb(255, 255, 88, 9));
                 break;
+
             case "person":
                 paint.setStyle(Paint.Style.FILL);
                 paint.setColor(Color.argb(255, 0, 128, 255));
                 break;
+
             case "path":
-                paint.setColor(Color.argb(255, 0, 0, 0));
+                paint.setStyle(Paint.Style.STROKE);
                 paint.setStrokeWidth(strokeWidth);
+                paint.setColor(Color.argb(255, 0, 0, 0));
                 break;
         }
 

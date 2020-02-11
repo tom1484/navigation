@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         globalVariable.windowWidth = windowWidth;
 
         globalVariable.activityBarHeight = (int)(windowHeight * 0.12);
-        globalVariable.activityBarButtonSize = (int)(globalVariable.activityBarHeight * 0.625);
+        globalVariable.activityBarButtonSize = (int)(globalVariable.activityBarHeight * 0.6);
 
         Log.i("TAG", String.valueOf(windowHeight));
 

@@ -5,8 +5,7 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="activityBackground">#FFF8C1</color>
-    <color name="activityBarButtonStart">#67BAFF</color>
-    <color name="activityBarButtonEnd">#3B87C5</color>
+    <color name="activityBarBackground">#CC232323</color>
 
     <color name="transparent">#00000000</color>
     <color name="balck">#000000</color>

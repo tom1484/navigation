@@ -14,6 +14,9 @@
     <com.example.navigation.ActivityBar
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_gravity="bottom"/>
 
 </FrameLayout>
