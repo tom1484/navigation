@@ -62,7 +62,8 @@ public class ActivityBar extends LinearLayout {
                 cartParams.height = globalVariable.activityBarButtonSize;
                 cart.setLayoutParams(cartParams);
             }
-        });
-    }
+        });	
+
+	}
 
 }
