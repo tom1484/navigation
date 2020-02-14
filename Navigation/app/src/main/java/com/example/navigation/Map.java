@@ -5,10 +5,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Matrix;
+import android.graphics.Path;
+import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +34,7 @@ public class Map extends View {
 
     private float mapWidth;
     private float mapHeight;
-    private  float realToScreenScalar;
+    private float realToScreenScalar;
 
     private GlobalVariable globalVariable;
     private ArrayList<MapEvent> mapEvents;
@@ -41,12 +45,39 @@ public class Map extends View {
     private float[] lastPivot;
     private float lastPointerDis;
 
+    private float PERSON_STROKE_WIDTH = 50;
+    private PointF person;
+    private Paint personPaint;
+
     public Map(Context context, AttributeSet attrs) {
         super(context, attrs);
         globalVariable = (GlobalVariable) context.getApplicationContext();
-        loadEvents();
+
+        globalVariable.mapEvents = new ArrayList<>();
+        mapEvents = globalVariable.mapEvents;
 
         transformMatrix = new Matrix();
+    }
+
+    private Pair<ArrayList<Float>, Integer> readNumbers(String path, int start) {
+        int j = start + 1;
+        while (j < path.length() && ((path.charAt(j) >= '0' && path.charAt(j) <= '9') || path.charAt(j) == '.' || path.charAt(j) == ',' || path.charAt(j) == '-'))
+            j ++;
+        ArrayList<Float> numbers = new ArrayList<>();
+
+        String num = "";
+        for (int i = start + 1; i < j; i ++) {
+            if (path.charAt(i) != ',') {
+                num += path.charAt(i);
+            } else {
+                numbers.add(Float.valueOf(num));
+                num = "";
+            }
+        }
+        if (num.length() != 0)
+            numbers.add(Float.valueOf(num));
+
+        return new Pair<>(numbers, j);
     }
 
     @Override
@@ -55,6 +86,12 @@ public class Map extends View {
 
         this.canvas = canvas;
         drawEvents();
+
+        if (person != null) {
+            float[] _person = new float[]{person.x, person.y};
+            transformMatrix.mapPoints(_person);
+            canvas.drawCircle(_person[0], _person[1], PERSON_STROKE_WIDTH / 2, personPaint);
+        }
     }
 
     public void centerPosition(float x, float y, float width) {
@@ -81,8 +118,16 @@ public class Map extends View {
         invalidate();
     }
 
-    public void addEvent(MapEvent mapEvent) {
-        mapEvents.add(mapEvent);
+    public PointF setPerson(float x, float y, float strokeWidth) {
+        person = new PointF(x, y);
+        personPaint = new Paint();
+        personPaint.setColor(Color.RED);
+
+        return person;
+    }
+
+    public void setBorder(String path, float strokeWidth) {
+        mapEvents.add(new MapEvent("path", path, strokeWidth));
     }
 
     private void drawEvents() {
@@ -156,15 +201,15 @@ public class Map extends View {
 
     }
 
-    private void loadEvents() {
+    public void loadEvents(int file_id) {
 
-        globalVariable.mapEvents = new ArrayList<>();
-        mapEvents = globalVariable.mapEvents;
-
-        String jsonString = getJsonString(R.raw.map);
+        String jsonString = getJsonString(file_id);
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONArray jsonEvents = jsonObject.getJSONArray("events");
+
+            String borderPath = jsonObject.getString("border");
+            setBorder(borderPath, 5f);
 
             for (int i = 0; i < jsonEvents.length(); i ++) {
                 JSONObject jsonEvent = (JSONObject) jsonEvents.get(i);
@@ -178,10 +223,7 @@ public class Map extends View {
                         jsonEvent.getString("name"),
                         jsonEvent.getString("description"),
                         jsonEvent.getJSONArray("items"),
-                        (float)jsonEvent.getDouble("x"),
-                        (float)jsonEvent.getDouble("y"),
-                        (float)jsonEvent.getDouble("width"),
-                        (float)jsonEvent.getDouble("height")
+                        jsonEvent.getString("path")
                 );
 
                 mapEvents.add(mapEvent);
@@ -191,7 +233,6 @@ public class Map extends View {
             e.printStackTrace();
         }
 
-//        Log.i("TAG", globalVariable.mapEvents.toString());
     }
 
     private String getJsonString(int id) {

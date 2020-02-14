@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -23,16 +24,11 @@ public class MapEvent {
     public String name;
     public String description;
     public ArrayList<Integer> items;
-    public float x;
-    public float y;
-    public float width;
-    public float height;
-
+    public Path path;
     public float strokeWidth;
+    public boolean clickable;
 
-    public ArrayList<Pair<PointF, PointF>> paths;
-
-    public MapEvent(int _id, String _type, String _name, String _description, JSONArray _items, float _x, float _y, float _width, float _height) {
+    public MapEvent(int _id, String _type, String _name, String _description, JSONArray _items, String _path) {
 
         id = _id;
         type = _type;
@@ -46,59 +42,78 @@ public class MapEvent {
                 e.printStackTrace();
             }
         }
-        x = _x;
-        y = _y;
-        width = _width;
-        height = _height;
+        path = getPathFromString(_path);
+
+        clickable = true;
 
     }
 
-    public MapEvent(String _type, float _x, float _y, float _strokeWidth) {
+    public MapEvent(String _type, String _path, float _strokeWidth) {
         type = _type;
-        x = _x;
-        y = _y;
+        path = getPathFromString(_path);
         strokeWidth = _strokeWidth;
-    }
-
-    public MapEvent(String _type, ArrayList<Pair<PointF, PointF>> _paths, float _strokeWidth) {
-        type = _type;
-        paths = _paths;
-        strokeWidth = _strokeWidth;
+        clickable = false;
     }
 
     public void draw(Canvas canvas, Matrix transformMatrix) {
 
-        switch (type) {
-            case "shelf":
-                RectF rectF = new RectF(
-                        x - width / 2, y - height / 2,
-                        x + width / 2, y + height / 2
-                );
-                transformMatrix.mapRect(rectF);
-                canvas.drawRect(rectF, getPaint());
-                break;
+        Path _path = new Path(path);
+        Log.i("TAG", path.toString());
+        _path.transform(transformMatrix);
+        canvas.drawPath(_path, getPaint());
 
-            case "person":
-                float[] point = {x, y};
-                transformMatrix.mapPoints(point);
-                canvas.drawCircle(point[0], point[1], strokeWidth / 2, getPaint());
-                break;
+    }
 
-            case "path":
-                for (Pair<PointF, PointF> line: paths) {
-                    float[] start = new float[] {line.first.x, line.first.y};
-                    float[] stop = new float[] {line.second.x, line.second.y};
-                    transformMatrix.mapPoints(start);
-                    transformMatrix.mapPoints(stop);
-                    canvas.drawLine(
-                            start[0], start[1],
-                            stop[0], stop[1],
-                            getPaint()
-                    );
-                }
-                break;
+    private Path getPathFromString(String pathStr) {
+        Path path = new Path();
+        for (int i = 0; i < pathStr.length();) {
+            Pair<ArrayList<Float>, Integer> res = readNumbers(pathStr, i);
+            ArrayList<Float> numbers = res.first;
+            switch (pathStr.charAt(i)) {
+                case 'M':
+                    path.moveTo(numbers.get(0), numbers.get(1));
+                    break;
+                case 'm':
+                    path.rMoveTo(numbers.get(0), numbers.get(1));
+                    break;
+                case 'L':
+                    path.lineTo(numbers.get(0), numbers.get(1));
+                    break;
+                case 'l':
+                    path.rLineTo(numbers.get(0), numbers.get(1));
+                    break;
+                case 'A':
+                    path.addArc(numbers.get(0), numbers.get(1), numbers.get(2), numbers.get(3), numbers.get(4), numbers.get(5));
+                    break;
+                case 'z':
+                    path.close();
+                    break;
+            }
+            i = res.second;
         }
 
+        return path;
+    }
+
+    private Pair<ArrayList<Float>, Integer> readNumbers(String path, int start) {
+        int j = start + 1;
+        while (j < path.length() && ((path.charAt(j) >= '0' && path.charAt(j) <= '9') || path.charAt(j) == '.' || path.charAt(j) == ',' || path.charAt(j) == '-'))
+            j ++;
+        ArrayList<Float> numbers = new ArrayList<>();
+
+        String num = "";
+        for (int i = start + 1; i < j; i ++) {
+            if (path.charAt(i) != ',') {
+                num += path.charAt(i);
+            } else {
+                numbers.add(Float.valueOf(num));
+                num = "";
+            }
+        }
+        if (num.length() != 0)
+            numbers.add(Float.valueOf(num));
+
+        return new Pair<>(numbers, j);
     }
 
     private Paint getPaint() {
@@ -123,23 +138,6 @@ public class MapEvent {
         }
 
         return paint;
-    }
-
-    public String toString() {
-
-        String string = "{";
-        string += "id: " + String.valueOf(id) + ", ";
-        string += "type: " + String.valueOf(type) + ", ";
-        string += "name: " + String.valueOf(name) + ", ";
-        string += "description: " + String.valueOf(description) + ", ";
-        string += "items: " + String.valueOf(items) + ", ";
-        string += "x: " + String.valueOf(x) + ", ";
-        string += "y: " + String.valueOf(y) + ", ";
-        string += "width: " + String.valueOf(width) + ", ";
-        string += "height: " + String.valueOf(height) + "}";
-
-        return string;
-
     }
 
 }

@@ -18,8 +18,7 @@ import java.util.ArrayList;
 public class MapActivity extends AppCompatActivity {
 
     private Map map;
-    private MapEvent person;
-    private MapEvent border;
+    private PointF person;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,31 +26,23 @@ public class MapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_map);
 
         map = (Map) findViewById(R.id.map);
+        map.loadEvents(R.raw.map);
 
-        person = new MapEvent("person", 6.5f, 3.5f, 50f);
-        map.addEvent(person);
-
-        ArrayList<Pair<PointF, PointF>> paths = new ArrayList<>();
-        paths.add(new Pair<>(new PointF(0f, 0f), new PointF(13f, 0f)));
-        paths.add(new Pair<>(new PointF(13f, 0f), new PointF(13f, 8f)));
-        paths.add(new Pair<>(new PointF(13f, 8f), new PointF(0f, 8f)));
-        paths.add(new Pair<>(new PointF(0f, 8f), new PointF(0f, 0f)));
-        border = new MapEvent("path", paths, 5f);
-        map.addEvent(border);
+        person = map.setPerson(6.5f, 3.5f, 50);
 
         final View layout = (View) findViewById(R.id.map);
         ViewTreeObserver viewTreeObserver = layout.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener (new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                map.centerPosition(person.x, person.y, 6f);
+                centerPosition(null);
             }
         });
 
     }
 
     public void centerPosition(View v) {
-        map.centerPosition(person.x, person.y, 6f);
+        map.centerPosition(6.5f, 3.5f, 6f);
     }
 
     public void changeToMap(View v) {}

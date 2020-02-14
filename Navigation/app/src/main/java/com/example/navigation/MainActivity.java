@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
         globalVariable.activityBarHeight = (int)(windowHeight * 0.12);
         globalVariable.activityBarButtonSize = (int)(globalVariable.activityBarHeight * 0.6);
 
-        Log.i("TAG", String.valueOf(windowHeight));
-
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[] {Manifest.permission.CAMERA}, 34);
             while (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {}
