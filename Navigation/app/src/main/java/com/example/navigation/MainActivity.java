@@ -18,6 +18,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] {Manifest.permission.CAMERA}, 34);
+            while (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {}
+        }
+
+        init();
+
+//        Intent intent = new Intent(this, MapActivity.class);
+//        startActivity(intent);
+    }
+
+    private void init() {
+
         globalVariable = (GlobalVariable) getApplicationContext();
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -31,12 +44,6 @@ public class MainActivity extends AppCompatActivity {
         globalVariable.activityBarHeight = (int)(windowHeight * 0.12);
         globalVariable.activityBarButtonSize = (int)(globalVariable.activityBarHeight * 0.6);
 
-        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[] {Manifest.permission.CAMERA}, 34);
-            while (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {}
-        }
-
-        Intent intent = new Intent(this, MapActivity.class);
-        startActivity(intent);
     }
+
 }
