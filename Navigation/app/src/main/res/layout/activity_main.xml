@@ -23,32 +23,33 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0px"
-            android:layout_weight="7"
+            android:layout_weight="5"
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="250px"
-                android:layout_height="250px"
-                android:layout_marginStart="50px"
+                android:id="@+id/main_shopping_cart"
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:layout_marginStart="75px"
+                android:layout_marginTop="50px"
+                android:contentDescription="@string/login_titlebox_image_description"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_shopping_main_cart"
-                android:contentDescription="@string/login_titlebox_image_description"/>
+                app:srcCompat="@drawable/ic_shopping_main_cart" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/main_title1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView3"
-                app:layout_constraintTop_toTopOf="parent"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/main_titlebox_text_1"
                 android:textColor="@color/mainTitleboxText"
-                android:textSize="100px" />
+                android:textSize="100px"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/main_shopping_cart"
+                app:layout_constraintTop_toTopOf="@+id/main_shopping_cart" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -59,15 +60,16 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/main_title2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/main_titlebox_text_2"
                 android:textColor="@color/mainTitleboxText"
-                android:textSize="65px" />
+                android:textSize="65px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -104,7 +106,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="100px"
@@ -133,10 +135,10 @@
                 android:paddingRight="30px"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                app:layout_constraintTop_toBottomOf="@+id/account" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="100px"
@@ -165,10 +167,10 @@
                 android:paddingRight="30px"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintTop_toBottomOf="@+id/password" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/login"
                 android:layout_width="400px"
                 android:layout_height="130px"
                 android:layout_marginTop="40px"
@@ -182,17 +184,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/login_password" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/google_login"
                 android:layout_width="150px"
                 android:layout_height="150px"
                 android:layout_marginTop="50px"
                 android:background="@drawable/ic_google_login"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button2" />
+                app:layout_constraintTop_toBottomOf="@+id/login" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/anonymous_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50px"
@@ -202,7 +204,7 @@
                 android:textSize="40px"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button3" />
+                app:layout_constraintTop_toBottomOf="@+id/google_login" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
