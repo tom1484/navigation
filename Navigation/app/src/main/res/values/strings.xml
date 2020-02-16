@@ -1,13 +1,19 @@
 <resources>
     <string name="app_name">Navigation</string>
-    <string name="login_title">會員登入</string>
+
     <string name="login_titlebox_image_description">shopping cart</string>
+    <string name="main_titlebox_text_1">智慧推車</string>
+    <string name="main_titlebox_text_2">smart cart. easy shopping</string>
+
+    <string name="login_title">會員登入</string>
     <string name="login_account_text">帳號</string>
     <string name="login_account_hint">輸入帳號</string>
     <string name="login_password_text">密碼</string>
     <string name="login_password_hint">輸入密碼</string>
-    <string name="main_titlebox_text_1">智慧推車</string>
-    <string name="main_titlebox_text_2">smart cart. easy shopping</string>
     <string name="login_button_text">登入</string>
     <string name="login_anonymous">以訪客身分登入</string>
+
+    <string name="startup_bar_greeting">您好</string>
+    <string name="startup_bar_default_account">訪客</string>
+
 </resources>
