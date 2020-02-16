@@ -9,71 +9,70 @@
     tools:ignore="PxUsage"
     android:background="@drawable/main_background">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="850px"
         android:layout_height="400px"
         android:layout_marginTop="100px"
         android:background="@drawable/main_titlebox_style"
-        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="5"
-            android:orientation="horizontal">
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0px"-->
+<!--            android:layout_weight="5"-->
+<!--            android:orientation="horizontal">-->
 
-            <ImageView
-                android:id="@+id/main_shopping_cart"
-                android:layout_width="200px"
-                android:layout_height="200px"
-                android:layout_marginStart="75px"
-                android:layout_marginTop="50px"
-                android:contentDescription="@string/login_titlebox_image_description"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_shopping_main_cart" />
+        <ImageView
+            android:id="@+id/main_shopping_cart"
+            android:layout_width="200px"
+            android:layout_height="200px"
+            android:layout_marginStart="75px"
+            android:layout_marginTop="45px"
+            android:contentDescription="@string/login_titlebox_image_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_shopping_main_cart" />
 
-            <TextView
-                android:id="@+id/main_title1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/main_titlebox_text_1"
-                android:textColor="@color/mainTitleboxText"
-                android:textSize="100px"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/main_shopping_cart"
-                app:layout_constraintTop_toTopOf="@+id/main_shopping_cart" />
+        <TextView
+            android:id="@+id/main_title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/main_titlebox_text_1"
+            android:textColor="@color/mainTitleboxText"
+            android:textSize="100px"
+            app:layout_constraintBottom_toBottomOf="@+id/main_shopping_cart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/main_shopping_cart"
+            app:layout_constraintTop_toTopOf="@+id/main_shopping_cart" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="3"
-            android:orientation="horizontal">
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0px"-->
+<!--            android:layout_weight="3"-->
+<!--            android:orientation="horizontal">-->
 
-            <TextView
-                android:id="@+id/main_title2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/main_titlebox_text_2"
-                android:textColor="@color/mainTitleboxText"
-                android:textSize="65px"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/main_title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="55px"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/main_titlebox_text_2"
+            android:textColor="@color/mainTitleboxText"
+            android:textSize="65px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <LinearLayout

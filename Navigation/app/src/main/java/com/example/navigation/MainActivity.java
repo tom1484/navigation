@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
         accountInput = (EditText) findViewById(R.id.login_account);
         passwordInput = (EditText) findViewById(R.id.login_password);
 
-//        Intent intent = new Intent(this, MapActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, StartupActivity.class);
+        startActivity(intent);
     }
 
     private void init() {

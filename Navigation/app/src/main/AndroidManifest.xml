@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".StartupActivity" android:screenOrientation="portrait"/>
         <activity android:name=".MapActivity" android:screenOrientation="portrait"/>
         <activity android:name=".AddItemActivity" android:screenOrientation="portrait"/>
         <activity android:name=".CartActivity" android:screenOrientation="portrait"/>
