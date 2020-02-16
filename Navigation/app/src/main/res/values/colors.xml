@@ -17,5 +17,7 @@
     <color name="loginAnonymousText">#283F8F</color>
 
     <color name="startupBarBackground">#429E46</color>
+    <color name="startupBoxBackground">#BAC9DABE</color>
+    <color name="startupBoxTitleBackground">#429E46</color>
 
 </resources>
