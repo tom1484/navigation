@@ -9,4 +9,5 @@
     <string name="main_titlebox_text_1">智慧推車</string>
     <string name="main_titlebox_text_2">smart cart. easy shopping</string>
     <string name="login_button_text">登入</string>
+    <string name="login_anonymous">以訪客身分登入</string>
 </resources>
