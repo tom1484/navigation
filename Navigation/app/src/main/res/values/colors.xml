@@ -5,7 +5,8 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="mainTitleboxBackground">#B3FFFFFF</color>
-    <color name="mainTitleboxText">#1E2E7C</color>
+    <color name="mainTitleboxText">#2D2F31</color>
+    <color name="loginButton">#FF9800</color>
 
     <color name="activityBackground">#FFF8C1</color>
     <color name="activityBarBackground">#CC232323</color>
