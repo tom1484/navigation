@@ -10,45 +10,107 @@
 
     <LinearLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="800px"
-        android:layout_height="500px"
+        android:layout_width="850px"
+        android:layout_height="400px"
         android:layout_marginTop="100px"
         android:background="@drawable/main_titlebox_style"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0px"
-            android:layout_weight="2"
+            android:layout_weight="7"
             android:orientation="horizontal">
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="250px"
+                android:layout_height="match_parent"
+                android:layout_marginStart="50px"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_main_cart" />
 
-        <LinearLayout
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="智慧推車"
+                android:textColor="@color/mainTitleboxText"
+                android:textSize="100px"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0px"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:orientation="horizontal">
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="smart cart. easy shopping"
+                android:textColor="@color/mainTitleboxText"
+                android:textSize="65px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
 
-
-    <LinearLayout
-        android:layout_width="800px"
-        android:layout_height="1000px"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="850px"
+        android:layout_height="0px"
         android:layout_marginTop="100px"
+        android:layout_marginBottom="100px"
         android:background="@drawable/main_titlebox_style"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        android:orientation="vertical">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80px"
+            android:fontFamily="sans-serif-black"
+            android:text="會員登入"
+            android:textColor="@color/balck"
+            android:textSize="80px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100px"
+            android:layout_marginTop="80px"
+            android:fontFamily="sans-serif-black"
+            android:text="帳號："
+            android:textColor="@color/balck"
+            android:textSize="60px"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
