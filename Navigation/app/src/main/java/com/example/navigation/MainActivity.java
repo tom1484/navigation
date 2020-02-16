@@ -10,7 +10,9 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText accountInput;
     private EditText passwordInput;
+
+    private TextView anonymousLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +34,8 @@ public class MainActivity extends AppCompatActivity {
         }
         init();
 
-        accountInput = (EditText) findViewById(R.id.login_account);
-        passwordInput = (EditText) findViewById(R.id.login_password);
-
-        Intent intent = new Intent(this, StartupActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, StartupActivity.class);
+//        startActivity(intent);
     }
 
     private void init() {
@@ -52,6 +53,25 @@ public class MainActivity extends AppCompatActivity {
         globalVariable.activityBarHeight = (int)(windowHeight * 0.12);
         globalVariable.activityBarButtonSize = (int)(globalVariable.activityBarHeight * 0.6);
 
+        accountInput = (EditText) findViewById(R.id.login_account);
+        passwordInput = (EditText) findViewById(R.id.login_password);
+
+        anonymousLogin = (TextView) findViewById(R.id.anonymous_login);
+        anonymousLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login("訪客", "");
+            }
+        });
+
+    }
+
+    private void login(String userAccount, String userPassword) {
+
+        globalVariable.userAccount = userAccount;
+
+        Intent intent = new Intent(this, StartupActivity.class);
+        startActivity(intent);
     }
 
 }

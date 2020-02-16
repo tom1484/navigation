@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class GlobalVariable extends Application {
 
+    public String userAccount;
+
     public int windowHeight;
     public int windowWidth;
 
