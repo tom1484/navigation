@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         }
         init();
 
-//        Intent intent = new Intent(this, StartupActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, AddItemActivity.class);
+        startActivity(intent);
     }
 
     private void init() {
@@ -66,7 +66,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void login(String userAccount, String userPassword) {
+    private void loadItems(String path) {
+
+    }
+
+    public void login(String userAccount, String userPassword) {
 
         globalVariable.userAccount = userAccount;
 
