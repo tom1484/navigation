@@ -19,4 +19,6 @@
     <string name="startup_box_title1">開始購物</string>
     <string name="startup_box_title2">只有您有</string>
 
+    <string name="add_item_activity_title">請對準商品條碼</string>
+
 </resources>
