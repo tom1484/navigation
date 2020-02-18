@@ -2,7 +2,10 @@ package com.example.navigation;
 
 import android.app.Application;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 public class GlobalVariable extends Application {
 
@@ -15,5 +18,8 @@ public class GlobalVariable extends Application {
     public int activityBarButtonSize;
 
     public ArrayList<MapEvent> mapEvents;
+    public ArrayList<JSONObject> items;
+    public Map<String, JSONObject> barcodeToItem;
 
+    public ArrayList<JSONObject> selectedItem;
 }

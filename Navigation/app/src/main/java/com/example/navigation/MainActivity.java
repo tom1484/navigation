@@ -26,6 +26,8 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -83,18 +85,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadItems(int file_id) {
 
+        globalVariable.items = new ArrayList<>();
+        globalVariable.barcodeToItem = new HashMap<>();
+
         String jsonString = getJsonString(file_id);
         try {
             JSONArray jsonArray = new JSONArray(jsonString);
 
             for (int i = 0; i < jsonArray.length(); i ++) {
-                JSONObject jsonEvent = (JSONObject) jsonArray.get(i);
-                Log.i("TAG", String.valueOf(jsonEvent.getInt("id")));
+                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                globalVariable.items.add(jsonObject);
+                globalVariable.barcodeToItem.put(jsonObject.getString("barcode"), jsonObject);
+//                Log.i("TAG", String.valueOf(jsonEvent.getInt("id")));
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+//        Log.i("TAG", globalVariable.barcodeToItem.toString());
+        Intent intent = new Intent(this, AddItemActivity.class);
+        startActivity(intent);
     }
 
     private String getJsonString(int id) {
@@ -126,9 +137,10 @@ public class MainActivity extends AppCompatActivity {
     public void login(String userAccount, String userPassword) {
 
         globalVariable.userAccount = userAccount;
+        loadItems(R.raw.item);
 
-        Intent intent = new Intent(this, StartupActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, StartupActivity.class);
+//        startActivity(intent);
     }
 
 }
