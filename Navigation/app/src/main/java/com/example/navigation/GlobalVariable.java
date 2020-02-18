@@ -1,6 +1,7 @@
 package com.example.navigation;
 
 import android.app.Application;
+import android.util.Pair;
 
 import org.json.JSONObject;
 
@@ -21,5 +22,5 @@ public class GlobalVariable extends Application {
     public ArrayList<JSONObject> items;
     public Map<String, JSONObject> barcodeToItem;
 
-    public ArrayList<JSONObject> selectedItem;
+    public ArrayList<Pair<JSONObject, Integer>> selectedItem;
 }

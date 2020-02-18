@@ -1,11 +1,16 @@
 package com.example.navigation;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.util.JsonReader;
 import android.util.Log;
+import android.util.Pair;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.vision.Frame;
@@ -23,6 +29,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import edu.counterview.CounterView;
+
 public class AddItemActivity extends AppCompatActivity {
 
     private GlobalVariable globalVariable;
@@ -30,58 +38,87 @@ public class AddItemActivity extends AppCompatActivity {
     private CameraPreview mCameraPreview;
 
     private BarcodeDetector mBarcodeDetector;
-    private SparseArray<Barcode> detection;
-    public Thread detect;
+    private Barcode barcode;
+    private Thread mThread;
+    private Handler mHandler;
+    private Runnable detect;
+    private boolean dialogDisplaying;
+
+    private View dialogView;
+    private AlertDialog.Builder dialogBuilder;
+    private CounterView dialogCounterView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_additem);
+
+        globalVariable = (GlobalVariable) getApplicationContext();
+        globalVariable.selectedItem = new ArrayList<>();
 
         mCameraPreview = (CameraPreview) findViewById(R.id.cameraPreview);
         mBarcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.EAN_13)
                 .build();
 
-        globalVariable = (GlobalVariable) getApplicationContext();
-        globalVariable.selectedItem = new ArrayList<>();
+        dialogView = LayoutInflater.from(this).inflate(R.layout.activity_addinfo, null, false);
+        dialogCounterView = (CounterView) dialogView.findViewById(R.id.add_counter);
+
+        dialogBuilder = new AlertDialog.Builder(this)
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        dialogDisplaying = false;
+                    }
+                }).setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        globalVariable.selectedItem.add(new Pair<JSONObject, Integer>(
+                                globalVariable.barcodeToItem.get(barcode.displayValue),
+                                Integer.valueOf(dialogCounterView.getCounterValue())
+                        ));
+                        Log.i("TAG", globalVariable.selectedItem.toString());
+                    }
+                }).setNegativeButton("cancel",null);
 
 
-
-        detect = new Thread(new Runnable() {
+        detect = new Runnable() {
             @Override
             public void run() {
                 while(true) {
+                    if (dialogDisplaying)
+                        continue;
                     Bitmap bitmap = mCameraPreview.getBitmap();
                     if (bitmap != null) {
                         Frame frameToProcess = new Frame.Builder().setBitmap(bitmap).build();
-                        detection = mBarcodeDetector.detect(frameToProcess);
+                        SparseArray<Barcode> detection = mBarcodeDetector.detect(frameToProcess);
 
-                        if (detection != null) {
-                            for (int i = 0; i < detection.size(); i ++) {
-                                String result = detection.valueAt(i).displayValue;
-                                JSONObject item = globalVariable.barcodeToItem.get(result);
-                                globalVariable.selectedItem.add(item);
-                                popupInfo(item);
-                            }
+                        if (detection != null && detection.size() > 0) {
+                            barcode = detection.valueAt(0);
+                            dialogDisplaying = true;
+                            mHandler.sendEmptyMessage(0);
                         }
                     }
                 }
             }
-        });
-        detect.start();
+        };
+        mHandler = new Handler() {
+            public void handleMessage(Message msg) {
+                showItemInfo(null);
+//                Log.i("TAG", barcode.displayValue);
+            }
+        };
+        mThread = new Thread(detect);
+        dialogDisplaying = false;
+        mThread.start();
+
     }
 
-    private void popupInfo(JSONObject item) {
+    private void showItemInfo(JSONObject item) {
 
-//        View view = LayoutInflater.from(this).inflate(R.layout.activity_addinfo, null, false);
-        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = layoutInflater.inflate(R.layout.activity_addinfo, null);
-        PopupWindow AddInfoWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-        Log.i("TAG", AddInfoWindow.toString());
-        AddInfoWindow.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
-//        AddInfoWindow.setOutsideTouchable(true);
+        dialogBuilder.setView(dialogView);
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
 
     }
 

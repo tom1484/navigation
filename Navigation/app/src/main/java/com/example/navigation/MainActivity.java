@@ -1,5 +1,6 @@
 package com.example.navigation;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -8,10 +9,14 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -51,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
         loadItems(R.raw.item);
 
-//        Intent intent = new Intent(this, AddItemActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, AddItemActivity.class);
+        startActivity(intent);
     }
 
     private void init() {
@@ -102,10 +107,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-//        Log.i("TAG", globalVariable.barcodeToItem.toString());
-        Intent intent = new Intent(this, AddItemActivity.class);
-        startActivity(intent);
     }
 
     private String getJsonString(int id) {
