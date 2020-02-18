@@ -1,5 +1,6 @@
 package com.example.navigation;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +27,7 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -47,7 +50,9 @@ public class AddItemActivity extends AppCompatActivity {
     private View dialogView;
     private AlertDialog.Builder dialogBuilder;
     private CounterView dialogCounterView;
+    private TextView dialogItemName;
 
+    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +68,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         dialogView = LayoutInflater.from(this).inflate(R.layout.activity_addinfo, null, false);
         dialogCounterView = (CounterView) dialogView.findViewById(R.id.add_counter);
+        dialogItemName = (TextView) dialogView.findViewById(R.id.add_item_name);
 
         dialogBuilder = new AlertDialog.Builder(this)
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -73,11 +79,10 @@ public class AddItemActivity extends AppCompatActivity {
                 }).setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        globalVariable.selectedItem.add(new Pair<JSONObject, Integer>(
+                        globalVariable.selectedItem.add(new Pair<>(
                                 globalVariable.barcodeToItem.get(barcode.displayValue),
                                 Integer.valueOf(dialogCounterView.getCounterValue())
                         ));
-                        Log.i("TAG", globalVariable.selectedItem.toString());
                     }
                 }).setNegativeButton("cancel",null);
 
@@ -105,7 +110,6 @@ public class AddItemActivity extends AppCompatActivity {
         mHandler = new Handler() {
             public void handleMessage(Message msg) {
                 showItemInfo(null);
-//                Log.i("TAG", barcode.displayValue);
             }
         };
         mThread = new Thread(detect);
@@ -115,6 +119,15 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private void showItemInfo(JSONObject item) {
+
+        try {
+            dialogItemName.setText(
+                    globalVariable.barcodeToItem.get(barcode.displayValue)
+                            .getString("name")
+            );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         dialogBuilder.setView(dialogView);
         AlertDialog dialog = dialogBuilder.create();
