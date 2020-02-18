@@ -14,6 +14,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+
 public class MainActivity extends AppCompatActivity {
 
     private GlobalVariable globalVariable;
@@ -34,8 +47,10 @@ public class MainActivity extends AppCompatActivity {
         }
         init();
 
-        Intent intent = new Intent(this, AddItemActivity.class);
-        startActivity(intent);
+        loadItems(R.raw.item);
+
+//        Intent intent = new Intent(this, AddItemActivity.class);
+//        startActivity(intent);
     }
 
     private void init() {
@@ -66,8 +81,46 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void loadItems(String path) {
+    private void loadItems(int file_id) {
 
+        String jsonString = getJsonString(file_id);
+        try {
+            JSONArray jsonArray = new JSONArray(jsonString);
+
+            for (int i = 0; i < jsonArray.length(); i ++) {
+                JSONObject jsonEvent = (JSONObject) jsonArray.get(i);
+                Log.i("TAG", String.valueOf(jsonEvent.getInt("id")));
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getJsonString(int id) {
+
+        InputStream is = getResources().openRawResource(id);
+        Writer writer = new StringWriter();
+        char[] buffer = new char[1024];
+        try {
+            Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            int n;
+            while ((n = reader.read(buffer)) != -1) {
+                writer.write(buffer, 0, n);
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return writer.toString();
     }
 
     public void login(String userAccount, String userPassword) {
