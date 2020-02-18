@@ -30,6 +30,7 @@ import android.os.HandlerThread;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Size;
+import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
@@ -39,6 +40,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -81,8 +86,9 @@ public class CameraPreview extends TextureView {
         ORIENTATIONS.append(Surface.ROTATION_180, 270);
         ORIENTATIONS.append(Surface.ROTATION_270, 180);
     }
-
     private boolean capturingStillPicture = false;
+
+
 
     public CameraPreview(Context context) {
         this(context, null);
@@ -94,6 +100,7 @@ public class CameraPreview extends TextureView {
         super(context, attrs, defStyleAttr);
         mFile = new File(getContext().getExternalFilesDir(null), "pic.jpg");
     }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -163,7 +170,8 @@ public class CameraPreview extends TextureView {
             return true;
         }
         @Override
-        public void onSurfaceTextureUpdated(SurfaceTexture texture) {}
+        public void onSurfaceTextureUpdated(SurfaceTexture texture) {
+        }
     };
 
     private final CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
