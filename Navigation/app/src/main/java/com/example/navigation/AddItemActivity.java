@@ -70,11 +70,18 @@ public class AddItemActivity extends AppCompatActivity {
         dialogCounterView = (CounterView) dialogView.findViewById(R.id.add_counter);
         dialogItemName = (TextView) dialogView.findViewById(R.id.add_item_name);
 
+        init();
+        mThread.start();
+
+    }
+
+    private void init() {
+
         dialogBuilder = new AlertDialog.Builder(this)
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        dialogDisplaying = false;
+//                        dialogDisplaying = false;
                     }
                 }).setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
@@ -85,7 +92,6 @@ public class AddItemActivity extends AppCompatActivity {
                         ));
                     }
                 }).setNegativeButton("cancel",null);
-
 
         detect = new Runnable() {
             @Override
@@ -100,8 +106,10 @@ public class AddItemActivity extends AppCompatActivity {
 
                         if (detection != null && detection.size() > 0) {
                             barcode = detection.valueAt(0);
-                            dialogDisplaying = true;
-                            mHandler.sendEmptyMessage(0);
+                            if (globalVariable.barcodeToItem.containsKey(barcode.displayValue)) {
+                                dialogDisplaying = true;
+                                mHandler.sendEmptyMessage(0);
+                            }
                         }
                     }
                 }
@@ -109,22 +117,18 @@ public class AddItemActivity extends AppCompatActivity {
         };
         mHandler = new Handler() {
             public void handleMessage(Message msg) {
-                showItemInfo(null);
+                showItemInfo(globalVariable.barcodeToItem.get(barcode.displayValue));
             }
         };
-        mThread = new Thread(detect);
         dialogDisplaying = false;
-        mThread.start();
 
+        mThread = new Thread(detect);
     }
 
     private void showItemInfo(JSONObject item) {
 
         try {
-            dialogItemName.setText(
-                    globalVariable.barcodeToItem.get(barcode.displayValue)
-                            .getString("name")
-            );
+            dialogItemName.setText(item.getString("name"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

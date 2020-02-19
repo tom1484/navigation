@@ -1,10 +1,42 @@
 [
     {
         "id": 0,
-        "barcode": "4719873171125",
-        "name": "test",
+        "barcode": "4712960020412",
+        "name": "薑黃洗髮乳",
         "description": "",
-        "picture": "item0.png",
+        "picture": "",
+        "price": ""
+    },
+    {
+        "id": 1,
+        "barcode": "4972768003401",
+        "name": "海苔小卷",
+        "description": "",
+        "picture": "",
+        "price": ""
+    },
+    {
+        "id": 2,
+        "barcode": "4713052770000",
+        "name": "白堊園芒果乾",
+        "description": "",
+        "picture": "",
+        "price": ""
+    },
+    {
+        "id": 3,
+        "barcode": "4713540003146",
+        "name": "瓦燒煎餅",
+        "description": "",
+        "picture": "",
+        "price": ""
+    },
+    {
+        "id": 4,
+        "barcode": "4712052011809",
+        "name": "安堡五香胡椒餅",
+        "description": "",
+        "picture": "",
         "price": ""
     }
 ]

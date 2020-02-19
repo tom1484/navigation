@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
         loadItems(R.raw.item);
 
-        Intent intent = new Intent(this, AddItemActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, AddItemActivity.class);
+//        startActivity(intent);
     }
 
     private void init() {
@@ -140,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
         globalVariable.userAccount = userAccount;
         loadItems(R.raw.item);
 
-//        Intent intent = new Intent(this, StartupActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, StartupActivity.class);
+        startActivity(intent);
     }
 
 }
