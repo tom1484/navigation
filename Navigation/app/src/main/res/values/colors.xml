@@ -21,5 +21,6 @@
     <color name="startupBoxTitleBackground">#429E46</color>
 
     <color name="cartItemBackground">#FFFFFF</color>
+    <color name="checkoutButtonBackground">#2196F3</color>
 
 </resources>

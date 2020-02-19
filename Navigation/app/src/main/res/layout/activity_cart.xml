@@ -11,6 +11,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -71,8 +72,10 @@
         android:layout_height="150px"
         android:layout_marginStart="20px"
         android:layout_marginBottom="30px"
+        android:onClick="checkout"
         android:text="Check out"
         app:layout_constraintBottom_toTopOf="@+id/activityBar"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/style_checkout_button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

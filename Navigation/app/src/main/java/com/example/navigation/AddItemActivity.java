@@ -45,6 +45,7 @@ public class AddItemActivity extends AppCompatActivity {
     private AlertDialog.Builder dialogBuilder;
     private CounterView dialogCounterView;
     private TextView dialogItemName;
+    private TextView dialogItemPrice;
 
     @SuppressLint("HandlerLeak")
     @Override
@@ -62,6 +63,7 @@ public class AddItemActivity extends AppCompatActivity {
         dialogView = LayoutInflater.from(this).inflate(R.layout.activity_addinfo, null, false);
         dialogCounterView = (CounterView) dialogView.findViewById(R.id.add_counter);
         dialogItemName = (TextView) dialogView.findViewById(R.id.add_item_name);
+        dialogItemPrice = (TextView) dialogView.findViewById(R.id.add_item_price);
 
         init();
         mThread.start();
@@ -150,6 +152,9 @@ public class AddItemActivity extends AppCompatActivity {
 
         try {
             dialogItemName.setText(item.getString("name"));
+            dialogItemPrice.setText(
+                    "$" + String.valueOf(item.getInt("price"))
+            );
         } catch (JSONException e) {
             e.printStackTrace();
         }

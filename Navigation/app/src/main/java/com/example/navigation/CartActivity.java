@@ -1,15 +1,18 @@
 package com.example.navigation;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONException;
@@ -25,6 +28,8 @@ public class CartActivity extends AppCompatActivity {
     private CartItem title;
     private LinearLayout selected_list;
     private TextView total_text;
+
+    private AlertDialog checkoutDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,17 @@ public class CartActivity extends AppCompatActivity {
         title.setItemAmount("數量");
         title.setTotalPrice("總計");
 
+        globalVariable.addedItem.clear();
+        globalVariable.addedItem.put(
+                3, new Pair<>(
+                        globalVariable.idToItem.get(3), 1
+                )
+        );
+        globalVariable.addedItem.put(
+                5, new Pair<>(
+                        globalVariable.idToItem.get(5), 1
+                )
+        );
         drawItems();
     }
 
@@ -112,6 +128,31 @@ public class CartActivity extends AppCompatActivity {
         }
 
         total_text.setText(String.valueOf(total));
+
+    }
+
+    public void checkout(View v) {
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.activity_checkout, null, false);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setView(dialogView);
+        checkoutDialog = dialogBuilder.create();
+        checkoutDialog.show();
+
+    }
+
+    public void selectVISA(View v) {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("結帳成功");
+        dialogBuilder.setPositiveButton("關閉", null);
+        dialogBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                checkoutDialog.dismiss();
+            }
+        });
+        dialogBuilder.show();
 
     }
 

@@ -1,6 +1,6 @@
 [
     {
-        "id": 0,
+        "id": -1,
         "barcode": "4710088630223",
         "name": "茶裏王日式無糖綠茶",
         "description": "",
@@ -13,7 +13,7 @@
         "name": "薑黃洗髮乳",
         "description": "",
         "picture": "",
-        "price": ""
+        "price": "220"
     },
     {
         "id": 1,
@@ -21,7 +21,7 @@
         "name": "海苔小卷",
         "description": "",
         "picture": "",
-        "price": ""
+        "price": "60"
     },
     {
         "id": 2,
@@ -29,7 +29,7 @@
         "name": "白堊園芒果乾",
         "description": "",
         "picture": "",
-        "price": ""
+        "price": "120"
     },
     {
         "id": 3,
@@ -37,7 +37,7 @@
         "name": "瓦燒煎餅",
         "description": "",
         "picture": "",
-        "price": ""
+        "price": "150"
     },
     {
         "id": 4,
@@ -45,6 +45,14 @@
         "name": "安堡五香胡椒餅",
         "description": "",
         "picture": "",
-        "price": ""
+        "price": "150"
+    },
+    {
+        "id": 5,
+        "barcode": "4712052011809",
+        "name": "白木耳露",
+        "description": "",
+        "picture": "",
+        "price": "65"
     }
 ]
