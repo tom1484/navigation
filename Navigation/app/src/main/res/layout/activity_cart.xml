@@ -6,18 +6,24 @@
     android:layout_height="match_parent"
     android:background="@color/activityBackground">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:id="@+id/selected_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.example.navigation.CartItem
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <com.example.navigation.CartItem
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 
     <com.example.navigation.ActivityBar
         android:layout_width="match_parent"

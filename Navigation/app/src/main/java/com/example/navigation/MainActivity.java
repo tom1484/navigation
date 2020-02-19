@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         loadItems(R.raw.item);
 
-//        Intent intent = new Intent(this, AddItemActivity.class);
+//        Intent intent = new Intent(this, CartActivity.class);
 //        startActivity(intent);
     }
 
@@ -90,9 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadItems(int file_id) {
 
-        globalVariable.items = new ArrayList<>();
-        globalVariable.barcodeToItem = new HashMap<>();
-
         String jsonString = getJsonString(file_id);
         try {
             JSONArray jsonArray = new JSONArray(jsonString);
@@ -100,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < jsonArray.length(); i ++) {
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 globalVariable.items.add(jsonObject);
+                globalVariable.idToItem.put(jsonObject.getInt("id"), jsonObject);
                 globalVariable.barcodeToItem.put(jsonObject.getString("barcode"), jsonObject);
 //                Log.i("TAG", String.valueOf(jsonEvent.getInt("id")));
             }

@@ -7,11 +7,15 @@ import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -29,12 +33,6 @@ public class CartActivity extends AppCompatActivity {
 
         init();
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        redraw();
     }
 
     private void init() {
@@ -60,10 +58,10 @@ public class CartActivity extends AppCompatActivity {
 
     private void drawItems() {
 
-        for (Pair<JSONObject, Integer> val: globalVariable.addedItem) {
+        for (Integer key: globalVariable.addedItem.keySet()) {
 
-            JSONObject jsonObject = val.first;
-            int amount = val.second;
+            JSONObject jsonObject = globalVariable.addedItem.get(key).first;
+            int amount = globalVariable.addedItem.get(key).second;
 
             CartItem item = new CartItem(this);
             try {
@@ -72,7 +70,7 @@ public class CartActivity extends AppCompatActivity {
                 );
                 item.setItemAmount(String.valueOf(amount));
                 item.setTotalPrice(String.valueOf(
-                        jsonObject.getInt("price")
+                        jsonObject.getInt("price") * amount
                 ));
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -85,9 +83,9 @@ public class CartActivity extends AppCompatActivity {
 
         }
 
-        for (Pair<JSONObject, Integer> val: globalVariable.selectedItem) {
+        for (Integer key: globalVariable.selectedItem.keySet()) {
 
-            JSONObject jsonObject = val.first;
+            JSONObject jsonObject = globalVariable.selectedItem.get(key).first;
 
             CartItem item = new CartItem(this);
             try {
@@ -95,9 +93,7 @@ public class CartActivity extends AppCompatActivity {
                         jsonObject.getString("name")
                 );
                 item.setItemAmount("0");
-                item.setTotalPrice(String.valueOf(
-                        jsonObject.getInt("price")
-                ));
+                item.setTotalPrice("0");
             } catch (JSONException e) {
                 e.printStackTrace();
             }

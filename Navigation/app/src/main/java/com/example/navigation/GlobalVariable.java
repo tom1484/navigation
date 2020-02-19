@@ -22,9 +22,10 @@ public class GlobalVariable extends Application {
     public ArrayList<MapEvent> mapEvents;
     public ArrayList<JSONObject> items;
     public Map<String, JSONObject> barcodeToItem;
+    public Map<Integer, JSONObject> idToItem;
 
-    public ArrayList<Pair<JSONObject, Integer>> addedItem;
-    public ArrayList<Pair<JSONObject, Integer>> selectedItem;
+    public Map<Integer, Pair<JSONObject, Integer>> addedItem;
+    public Map<Integer, Pair<JSONObject, Integer>> selectedItem;
 
     public GlobalVariable() {
         userAccount = "";
@@ -38,8 +39,9 @@ public class GlobalVariable extends Application {
         mapEvents = new ArrayList<>();
         items = new ArrayList<>();
         barcodeToItem = new HashMap<>();
+        idToItem = new HashMap<>();
 
-        addedItem = new ArrayList<>();
-        selectedItem = new ArrayList<>();
+        addedItem = new HashMap<>();
+        selectedItem = new HashMap<>();
     }
 }

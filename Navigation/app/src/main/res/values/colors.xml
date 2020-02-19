@@ -11,7 +11,7 @@
     <color name="activityBackground">#FFF8C1</color>
     <color name="activityBarBackground">#CC232323</color>
 
-    <color name="mainTitleboxBackground">#B3FFFFFF</color>
+    <color name="mainTitleboxBackground">#CCFFFFFF</color>
     <color name="mainTitleboxText">#283F8F</color>
     <color name="loginButton">#FF9800</color>
     <color name="loginAnonymousText">#283F8F</color>

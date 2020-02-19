@@ -53,7 +53,6 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_additem);
 
         globalVariable = (GlobalVariable) getApplicationContext();
-        globalVariable.addedItem = new ArrayList<>();
 
         mCameraPreview = (CameraPreview) findViewById(R.id.cameraPreview);
         mBarcodeDetector = new BarcodeDetector.Builder(this)
@@ -80,16 +79,35 @@ public class AddItemActivity extends AppCompatActivity {
                 }).setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Pair<JSONObject, Integer> pair = new Pair<>(
-                                globalVariable.barcodeToItem.get(barcode.displayValue),
-                                Integer.valueOf(dialogCounterView.getCounterValue())
-                        );
-                        if (globalVariable.selectedItem.contains(pair)) {
-                            int index = globalVariable.addedItem.indexOf(pair);
-                            globalVariable.addedItem.add(pair);
-                            globalVariable.selectedItem.remove(index);
-                        } else {
-                            globalVariable.addedItem.add(pair);
+                        try {
+                            JSONObject jsonObject = globalVariable.barcodeToItem.get(barcode.displayValue);
+                            int id = jsonObject.getInt("id");
+                            if (globalVariable.selectedItem.containsKey(id)) {
+                                globalVariable.addedItem.put(
+                                        id, new Pair<>(
+                                                jsonObject, 0
+                                        )
+                                );
+                                globalVariable.selectedItem.remove(id);
+                            } else if (globalVariable.addedItem.containsKey(id)) {
+                                int number = globalVariable.addedItem.get(id).second;
+                                globalVariable.addedItem.remove(id);
+                                globalVariable.addedItem.put(
+                                        id, new Pair<>(
+                                                jsonObject,
+                                                number + Integer.valueOf(dialogCounterView.getCounterValue())
+                                        )
+                                );
+                            } else {
+                                globalVariable.addedItem.put(
+                                        id, new Pair<>(
+                                                jsonObject,
+                                                Integer.valueOf(dialogCounterView.getCounterValue())
+                                        )
+                                );
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                     }
                 }).setNegativeButton("cancel",null);
@@ -123,6 +141,8 @@ public class AddItemActivity extends AppCompatActivity {
         };
         dialogDisplaying = false;
 
+        if (mThread != null)
+            mThread.destroy();
         mThread = new Thread(detect);
     }
 
