@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,6 +24,7 @@ public class CartActivity extends AppCompatActivity {
 
     private CartItem title;
     private LinearLayout selected_list;
+    private TextView total_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class CartActivity extends AppCompatActivity {
 
     private void init() {
         selected_list = (LinearLayout) findViewById(R.id.selected_list);
-        Log.i("TAG", selected_list.toString());
+        total_text = (TextView)  findViewById(R.id.total);
 
         title = (CartItem) findViewById(R.id.title);
         title.setItemName("商品名稱");
@@ -58,6 +60,8 @@ public class CartActivity extends AppCompatActivity {
 
     private void drawItems() {
 
+        int total = 0;
+
         for (Integer key: globalVariable.addedItem.keySet()) {
 
             JSONObject jsonObject = globalVariable.addedItem.get(key).first;
@@ -72,6 +76,8 @@ public class CartActivity extends AppCompatActivity {
                 item.setTotalPrice(String.valueOf(
                         jsonObject.getInt("price") * amount
                 ));
+
+                total += jsonObject.getInt("price") * amount;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -104,6 +110,8 @@ public class CartActivity extends AppCompatActivity {
             ));
 
         }
+
+        total_text.setText(String.valueOf(total));
 
     }
 
