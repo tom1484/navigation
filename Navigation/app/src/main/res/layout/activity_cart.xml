@@ -7,9 +7,17 @@
     android:background="@color/activityBackground">
 
     <LinearLayout
+        android:id="@+id/selected_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"/>
+        android:orientation="vertical">
+
+        <com.example.navigation.CartItem
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
     <com.example.navigation.ActivityBar
         android:layout_width="match_parent"

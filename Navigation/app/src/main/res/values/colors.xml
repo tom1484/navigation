@@ -5,7 +5,7 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="transparent">#00000000</color>
-    <color name="balck">#000000</color>
+    <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 
     <color name="activityBackground">#FFF8C1</color>
@@ -19,5 +19,7 @@
     <color name="startupBarBackground">#429E46</color>
     <color name="startupBoxBackground">#BAC9DABE</color>
     <color name="startupBoxTitleBackground">#429E46</color>
+
+    <color name="cartItemBackground">#FFFFFF</color>
 
 </resources>

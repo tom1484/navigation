@@ -1,6 +1,14 @@
 [
     {
         "id": 0,
+        "barcode": "4710088630223",
+        "name": "茶裏王日式無糖綠茶",
+        "description": "",
+        "picture": "",
+        "price": "20"
+    },
+    {
+        "id": 0,
         "barcode": "4712960020412",
         "name": "薑黃洗髮乳",
         "description": "",

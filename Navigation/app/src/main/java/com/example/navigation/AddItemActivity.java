@@ -4,20 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Message;
-import android.util.JsonReader;
 import android.util.Log;
 import android.util.Pair;
 import android.util.SparseArray;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -59,7 +53,7 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_additem);
 
         globalVariable = (GlobalVariable) getApplicationContext();
-        globalVariable.selectedItem = new ArrayList<>();
+        globalVariable.addedItem = new ArrayList<>();
 
         mCameraPreview = (CameraPreview) findViewById(R.id.cameraPreview);
         mBarcodeDetector = new BarcodeDetector.Builder(this)
@@ -86,10 +80,17 @@ public class AddItemActivity extends AppCompatActivity {
                 }).setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        globalVariable.selectedItem.add(new Pair<>(
+                        Pair<JSONObject, Integer> pair = new Pair<>(
                                 globalVariable.barcodeToItem.get(barcode.displayValue),
                                 Integer.valueOf(dialogCounterView.getCounterValue())
-                        ));
+                        );
+                        if (globalVariable.selectedItem.contains(pair)) {
+                            int index = globalVariable.addedItem.indexOf(pair);
+                            globalVariable.addedItem.add(pair);
+                            globalVariable.selectedItem.remove(index);
+                        } else {
+                            globalVariable.addedItem.add(pair);
+                        }
                     }
                 }).setNegativeButton("cancel",null);
 

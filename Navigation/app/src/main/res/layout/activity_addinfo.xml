@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:fontFamily="sans-serif-black"
     android:layout_height="match_parent">
 
     <TextView
@@ -14,7 +15,7 @@
         android:fontFamily="sans-serif-black"
         android:text="132"
         android:textSize="60px"
-        android:textColor="@color/balck"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/add_counter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +39,7 @@
         android:gravity="center_horizontal"
         android:text="選擇數量"
         android:textSize="50px"
-        android:textColor="@color/balck"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/add_counter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/add_counter" />

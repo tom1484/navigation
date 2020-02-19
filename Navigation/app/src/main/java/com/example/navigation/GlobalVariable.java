@@ -6,6 +6,7 @@ import android.util.Pair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class GlobalVariable extends Application {
@@ -22,5 +23,23 @@ public class GlobalVariable extends Application {
     public ArrayList<JSONObject> items;
     public Map<String, JSONObject> barcodeToItem;
 
+    public ArrayList<Pair<JSONObject, Integer>> addedItem;
     public ArrayList<Pair<JSONObject, Integer>> selectedItem;
+
+    public GlobalVariable() {
+        userAccount = "";
+
+        windowHeight = 0;
+        windowWidth = 0;
+
+        activityBarHeight = 0;
+        activityBarButtonSize = 0;
+
+        mapEvents = new ArrayList<>();
+        items = new ArrayList<>();
+        barcodeToItem = new HashMap<>();
+
+        addedItem = new ArrayList<>();
+        selectedItem = new ArrayList<>();
+    }
 }
