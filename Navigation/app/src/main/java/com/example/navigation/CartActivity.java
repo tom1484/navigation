@@ -43,35 +43,33 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        redraw();
+    }
+
     private void init() {
         selected_list = (LinearLayout) findViewById(R.id.selected_list);
         total_text = (TextView)  findViewById(R.id.total);
 
-//        title = (CartItem) findViewById(R.id.title);
-//        title.setBackground(Color.argb(0, 0, 0, 0));
-//        title.setItemName("商品名稱");
-//        title.setItemAmount("數量");
-//        title.setTotalPrice("總計");
-
-        globalVariable.addedItem.clear();
-        globalVariable.addedItem.put(
-                3, new Pair<>(
-                        globalVariable.idToItem.get(3), 1
-                )
-        );
-        globalVariable.addedItem.put(
-                5, new Pair<>(
-                        globalVariable.idToItem.get(5), 1
-                )
-        );
+//        globalVariable.addedItem.clear();
+//        globalVariable.addedItem.put(
+//                3, new Pair<>(
+//                        globalVariable.idToItem.get(3), 1
+//                )
+//        );
+//        globalVariable.addedItem.put(
+//                5, new Pair<>(
+//                        globalVariable.idToItem.get(5), 1
+//                )
+//        );
         drawItems();
     }
 
     private void redraw() {
 
         selected_list.removeAllViews();
-//        selected_list.addView(title);
-
         drawItems();
 
     }
@@ -117,7 +115,7 @@ public class CartActivity extends AppCompatActivity {
                         jsonObject.getString("name")
                 );
                 item.setItemAmount("0");
-                item.setTotalPrice("0");
+                item.setTotalPrice("$0");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -130,6 +128,14 @@ public class CartActivity extends AppCompatActivity {
         }
 
         total_text.setText("$" + String.valueOf(total));
+        Log.i("TAG", String.valueOf(globalVariable.selectedItem));
+
+    }
+
+    public void searchItem(View v) {
+
+        Intent intent = new Intent(this, SearchItemActivity.class);
+        startActivity(intent);
 
     }
 

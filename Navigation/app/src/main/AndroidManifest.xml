@@ -26,6 +26,7 @@
         <activity android:name=".MapActivity" android:screenOrientation="portrait"/>
         <activity android:name=".AddItemActivity" android:screenOrientation="portrait"/>
         <activity android:name=".CartActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".SearchItemActivity" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
