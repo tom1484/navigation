@@ -2,6 +2,7 @@ package com.example.navigation;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -46,10 +47,11 @@ public class CartActivity extends AppCompatActivity {
         selected_list = (LinearLayout) findViewById(R.id.selected_list);
         total_text = (TextView)  findViewById(R.id.total);
 
-        title = (CartItem) findViewById(R.id.title);
-        title.setItemName("商品名稱");
-        title.setItemAmount("數量");
-        title.setTotalPrice("總計");
+//        title = (CartItem) findViewById(R.id.title);
+//        title.setBackground(Color.argb(0, 0, 0, 0));
+//        title.setItemName("商品名稱");
+//        title.setItemAmount("數量");
+//        title.setTotalPrice("總計");
 
         globalVariable.addedItem.clear();
         globalVariable.addedItem.put(
@@ -68,7 +70,7 @@ public class CartActivity extends AppCompatActivity {
     private void redraw() {
 
         selected_list.removeAllViews();
-        selected_list.addView(title);
+//        selected_list.addView(title);
 
         drawItems();
 
@@ -89,7 +91,7 @@ public class CartActivity extends AppCompatActivity {
                         jsonObject.getString("name")
                 );
                 item.setItemAmount(String.valueOf(amount));
-                item.setTotalPrice(String.valueOf(
+                item.setTotalPrice("$" + String.valueOf(
                         jsonObject.getInt("price") * amount
                 ));
 
@@ -127,7 +129,7 @@ public class CartActivity extends AppCompatActivity {
 
         }
 
-        total_text.setText(String.valueOf(total));
+        total_text.setText("$" + String.valueOf(total));
 
     }
 

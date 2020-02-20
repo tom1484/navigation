@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 
 public class CartItem extends LinearLayout {
 
+    private LinearLayout linearLayout;
+
     private TextView itemName;
     private TextView itemAmount;
     private TextView totalPrice;
@@ -29,16 +31,22 @@ public class CartItem extends LinearLayout {
     }
 
     private void init(Context context) {
-        View.inflate(context, R.layout.cartitem, this);
+        View.inflate(context, R.layout.view_cartitem, this);
 
-        itemName = findViewById(R.id.item_name);
-        itemAmount = findViewById(R.id.item_amount);
-        totalPrice = findViewById(R.id.total_price);
+        linearLayout = (LinearLayout) findViewById(R.id.cartitem_linearlayout);
+
+        itemName = (TextView) findViewById(R.id.item_name);
+        itemAmount = (TextView) findViewById(R.id.item_amount);
+        totalPrice = (TextView) findViewById(R.id.total_price);
 
         itemName.setText("");
         itemAmount.setText("0");
         totalPrice.setText("0");
 
+    }
+
+    public void setBackground(int color) {
+        linearLayout.setBackgroundColor(color);
     }
 
     public void setItemName(String name) {

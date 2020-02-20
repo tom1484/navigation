@@ -5,9 +5,10 @@
     android:layout_height="170px">
 
     <LinearLayout
-        android:layout_width="1060px"
+        android:id="@+id/cartitem_linearlayout"
+        android:layout_width="1040px"
         android:layout_height="150px"
-        android:background="@drawable/style_cartitem"
+        android:background="@drawable/style_textbar"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,7 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0px"
             android:layout_height="match_parent"
-            android:layout_weight="50">
+            android:layout_weight="46">
 
             <TextView
                 android:id="@+id/item_name"
@@ -27,7 +28,7 @@
                 android:layout_marginBottom="20px"
                 android:fontFamily="sans-serif-black"
                 android:textColor="@color/black"
-                android:textSize="50px"
+                android:textSize="40px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +45,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0px"
             android:layout_height="match_parent"
-            android:layout_weight="25">
+            android:layout_weight="18">
 
             <TextView
                 android:id="@+id/item_amount"
@@ -54,7 +55,7 @@
                 android:layout_marginBottom="20px"
                 android:fontFamily="sans-serif-black"
                 android:textColor="@color/black"
-                android:textSize="50px"
+                android:textSize="40px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +72,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0px"
             android:layout_height="match_parent"
-            android:layout_weight="25">
+            android:layout_weight="20">
 
             <TextView
                 android:id="@+id/total_price"
@@ -81,11 +82,33 @@
                 android:layout_marginBottom="20px"
                 android:fontFamily="sans-serif-black"
                 android:textColor="@color/black"
-                android:textSize="50px"
+                android:textSize="40px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="5px"
+            android:layout_height="100px"
+            android:layout_gravity="center"
+            android:background="@color/black" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="16">
+
+            <Button
+                android:layout_width="100px"
+                android:layout_height="100px"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/ic_close"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

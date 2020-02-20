@@ -19,7 +19,7 @@
             app:layout_constraintEnd_toEndOf="@+id/imageView2"
             app:layout_constraintStart_toStartOf="@+id/imageView2"
             app:layout_constraintTop_toBottomOf="@+id/imageView2"
-            app:srcCompat="@drawable/line_pay" />
+            app:srcCompat="@drawable/im_line_pay" />
 
         <ImageView
             android:id="@+id/imageView2"
@@ -28,7 +28,7 @@
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:layout_constraintStart_toStartOf="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:srcCompat="@drawable/google_pay" />
+            app:srcCompat="@drawable/im_google_pay" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -37,7 +37,7 @@
             android:layout_marginStart="50px"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/visa" />
+            app:srcCompat="@drawable/im_visa" />
 
         <TextView
             android:id="@+id/textView10"

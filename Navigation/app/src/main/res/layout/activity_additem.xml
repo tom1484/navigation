@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".AddItemActivity"
@@ -9,45 +9,35 @@
     tools:ignore="PxUsage"
     android:background="@color/activityBackground">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/activityBackground"
-        android:orientation="vertical">
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="140px"
+        android:gravity="center_vertical"
+        android:text="@string/add_item_activity_title"
+        android:textColor="#000000"
+        android:textSize="90px"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="140px"
-            android:gravity="center_vertical"
-            android:text="@string/add_item_activity_title"
-            android:textColor="#000000"
-            android:textSize="90px"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.example.navigation.CameraPreview
-            android:id="@+id/cameraPreview"
-            android:layout_width="810px"
-            android:layout_height="1080px"
-            android:layout_gravity="center"
-            android:layout_marginTop="140px"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.example.navigation.CameraPreview
+        android:id="@+id/cameraPreview"
+        android:layout_width="810px"
+        android:layout_height="1080px"
+        android:layout_gravity="center"
+        android:layout_marginTop="200px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"/>
 
     <com.example.navigation.ActivityBar
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_gravity="bottom"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginBottom="0dp" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

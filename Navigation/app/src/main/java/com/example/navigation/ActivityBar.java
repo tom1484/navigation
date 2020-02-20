@@ -2,13 +2,11 @@ package com.example.navigation;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import android.view.ViewGroup;
-import android.util.Log;
 
 public class ActivityBar extends LinearLayout {
 
@@ -34,7 +32,7 @@ public class ActivityBar extends LinearLayout {
     }
 
     private void init(Context context) {
-        View.inflate(context, R.layout.activitybar, this);
+        View.inflate(context, R.layout.view_activitybar, this);
 
         map = (Button) findViewById(R.id.map);
         addItem = (Button) findViewById(R.id.addItem);

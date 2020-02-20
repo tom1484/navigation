@@ -72,47 +72,49 @@ public class AddItemActivity extends AppCompatActivity {
 
     private void init() {
 
-        dialogBuilder = new AlertDialog.Builder(this)
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-//                        dialogDisplaying = false;
+        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                dialogDisplaying = false;
+            }
+        });
+        dialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    JSONObject jsonObject = globalVariable.barcodeToItem.get(barcode.displayValue);
+                    int id = jsonObject.getInt("id");
+                    if (globalVariable.selectedItem.containsKey(id)) {
+                        globalVariable.addedItem.put(
+                                id, new Pair<>(
+                                        jsonObject, 0
+                                )
+                        );
+                        globalVariable.selectedItem.remove(id);
+                    } else if (globalVariable.addedItem.containsKey(id)) {
+                        int number = globalVariable.addedItem.get(id).second;
+                        globalVariable.addedItem.remove(id);
+                        globalVariable.addedItem.put(
+                                id, new Pair<>(
+                                        jsonObject,
+                                        number + Integer.valueOf(dialogCounterView.getCounterValue())
+                                )
+                        );
+                    } else {
+                        globalVariable.addedItem.put(
+                                id, new Pair<>(
+                                        jsonObject,
+                                        Integer.valueOf(dialogCounterView.getCounterValue())
+                                )
+                        );
                     }
-                }).setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            JSONObject jsonObject = globalVariable.barcodeToItem.get(barcode.displayValue);
-                            int id = jsonObject.getInt("id");
-                            if (globalVariable.selectedItem.containsKey(id)) {
-                                globalVariable.addedItem.put(
-                                        id, new Pair<>(
-                                                jsonObject, 0
-                                        )
-                                );
-                                globalVariable.selectedItem.remove(id);
-                            } else if (globalVariable.addedItem.containsKey(id)) {
-                                int number = globalVariable.addedItem.get(id).second;
-                                globalVariable.addedItem.remove(id);
-                                globalVariable.addedItem.put(
-                                        id, new Pair<>(
-                                                jsonObject,
-                                                number + Integer.valueOf(dialogCounterView.getCounterValue())
-                                        )
-                                );
-                            } else {
-                                globalVariable.addedItem.put(
-                                        id, new Pair<>(
-                                                jsonObject,
-                                                Integer.valueOf(dialogCounterView.getCounterValue())
-                                        )
-                                );
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).setNegativeButton("cancel",null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        dialogBuilder.setNegativeButton("cancel",null);
 
         detect = new Runnable() {
             @Override
