@@ -29,7 +29,7 @@ public class MapActivity extends AppCompatActivity {
     private Button  left;
     private Button  right;
 
-    private float speed = 0.03f;
+    private float speed = 0.08f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +99,9 @@ public class MapActivity extends AppCompatActivity {
     }
 
     public void centerPosition(View v) {
-        map.centerPosition(person.x, person.y, 6f);
+        person.set(1f, 2f);
+        map.centerPosition(person.x, person.y, 6);
+        map.invalidate();
     }
 
     public void changeToMap(View v) {}

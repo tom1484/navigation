@@ -41,14 +41,14 @@ public class SearchItemActivity extends AppCompatActivity {
     }
 
     public void addSelected(View v) {
-        if (globalVariable.addedItem.containsKey(6)) {
-            globalVariable.addedItem.put(
+        if (globalVariable.selectedItem.containsKey(6)) {
+            globalVariable.selectedItem.put(
                     4, new Pair<>(
                             globalVariable.idToItem.get(4), 1
                     )
             );
         } else {
-            globalVariable.addedItem.put(
+            globalVariable.selectedItem.put(
                     6, new Pair<>(
                             globalVariable.idToItem.get(6), 1
                     )

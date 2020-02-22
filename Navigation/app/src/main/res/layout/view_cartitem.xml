@@ -108,7 +108,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/ic_close"/>
+                android:background="@drawable/ic_close"
+                android:onClick="close"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

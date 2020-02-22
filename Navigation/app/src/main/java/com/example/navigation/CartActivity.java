@@ -149,6 +149,11 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
+    public void close(View v) {
+        globalVariable.addedItem = new HashMap<>();
+        globalVariable.selectedItem = new HashMap<>();
+    }
+
     public void selectVISA(View v) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
