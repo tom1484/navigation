@@ -1,48 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal" android:layout_width="700px"
-    android:layout_height="1000px"
-    android:background="@drawable/style_searchinfo">
+    android:orientation="horizontal" android:layout_width="1080px"
+    android:layout_height="170px">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="900px"
-        android:orientation="vertical"
-        android:layout_gravity="center">
+        android:id="@+id/cartitem_linearlayout"
+        android:layout_width="1040px"
+        android:layout_height="150px"
+        android:background="@drawable/style_textbar"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="600px"
-            android:layout_height="0px"
-            android:layout_weight="70"
-            android:layout_gravity="center">
-
-            <ImageView
-                android:id="@+id/item_image"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="600px"
-            android:layout_height="0px"
-            android:layout_weight="15"
-            android:layout_gravity="center" >
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="50">
 
             <TextView
                 android:id="@+id/item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginTop="20px"
+                android:layout_marginBottom="20px"
                 android:fontFamily="sans-serif-black"
-                android:text="test"
                 android:textColor="@color/black"
-                android:textSize="50px"
+                android:textSize="40px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,24 +36,121 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="600px"
-            android:layout_height="0px"
-            android:layout_weight="15"
-            android:layout_gravity="center">
+        <View
+            android:layout_width="5px"
+            android:layout_height="100px"
+            android:layout_gravity="center"
+            android:background="@color/black" />
 
-            <Button
-                android:layout_width="120px"
-                android:layout_height="120px"
-                android:background="@drawable/ic_add"
-                android:onClick="addSelected"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="30">
+
+            <TextView
+                android:id="@+id/item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20px"
+                android:layout_marginBottom="20px"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/black"
+                android:textSize="40px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="5px"
+            android:layout_height="100px"
+            android:layout_gravity="center"
+            android:background="@color/black" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="20">
+
+            <Button
+                android:layout_width="100px"
+                android:layout_height="100px"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/ic_add"
+                android:onClick="addSelected"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="900px"-->
+<!--        android:orientation="vertical"-->
+<!--        android:layout_gravity="center">-->
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="600px"-->
+<!--            android:layout_height="0px"-->
+<!--            android:layout_weight="70"-->
+<!--            android:layout_gravity="center">-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/item_image"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"/>-->
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="600px"-->
+<!--            android:layout_height="0px"-->
+<!--            android:layout_weight="15"-->
+<!--            android:layout_gravity="center" >-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/item_name"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:fontFamily="sans-serif-black"-->
+<!--                android:text="test"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="50px"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="600px"-->
+<!--            android:layout_height="0px"-->
+<!--            android:layout_weight="15"-->
+<!--            android:layout_gravity="center">-->
+
+<!--            <Button-->
+<!--                android:layout_width="120px"-->
+<!--                android:layout_height="120px"-->
+<!--                android:background="@drawable/ic_add"-->
+<!--                android:onClick="addSelected"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--    </LinearLayout>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

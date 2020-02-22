@@ -1,6 +1,6 @@
 [
     {
-        "id": -1,
+        "id": 0,
         "barcode": "4710088630223",
         "name": "茶裏王日式無糖綠茶",
         "description": "",
@@ -8,7 +8,7 @@
         "price": "20"
     },
     {
-        "id": 0,
+        "id": 122,
         "barcode": "4712960020412",
         "name": "薑黃洗髮乳",
         "description": "",
@@ -16,7 +16,7 @@
         "price": "220"
     },
     {
-        "id": 1,
+        "id": 2,
         "barcode": "4972768003401",
         "name": "海苔小卷",
         "description": "",
@@ -24,7 +24,7 @@
         "price": "60"
     },
     {
-        "id": 2,
+        "id": 3,
         "barcode": "4713052770000",
         "name": "白堊園芒果乾",
         "description": "",
@@ -32,7 +32,7 @@
         "price": "120"
     },
     {
-        "id": 3,
+        "id": 4,
         "barcode": "4713540003146",
         "name": "瓦燒煎餅",
         "description": "",
@@ -40,7 +40,7 @@
         "price": "150"
     },
     {
-        "id": 4,
+        "id": 11,
         "barcode": "4712052011809",
         "name": "安堡五香胡椒餅",
         "description": "",
@@ -48,11 +48,60 @@
         "price": "150"
     },
     {
-        "id": 5,
+        "id": 6,
         "barcode": "4712052011809",
-        "name": "白木耳露",
+        "name": "素燕窩",
         "description": "",
         "picture": "",
         "price": "65"
+    },
+    {
+        "id": 7,
+        "barcode": "",
+        "name": "農會薑黃粉",
+        "description": "",
+        "picture": "",
+        "price": "500"
+    },
+    {
+        "id": 8,
+        "barcode": "",
+        "name": "嚴選海鮮禮盒",
+        "description": "",
+        "picture": "",
+        "price": "1380"
+    },
+    {
+        "id": 9,
+        "barcode": "",
+        "name": "山上區農會芒果乾",
+        "description": "",
+        "picture": "",
+        "price": "130"
+    },
+    {
+        "id": 10,
+        "barcode": "",
+        "name": "蘆薈潔客臥噴噴樂",
+        "description": "",
+        "picture": "",
+        "price": "180"
+    },
+    {
+        "id": 5,
+        "barcode": "",
+        "name": "農好總匯益生菌",
+        "description": "",
+        "picture": "",
+        "price": "590"
+    },
+    {
+        "id": 1,
+        "barcode": "",
+        "name": "有機包種茶禮盒",
+        "description": "",
+        "picture": "",
+        "price": "1200"
     }
+
 ]

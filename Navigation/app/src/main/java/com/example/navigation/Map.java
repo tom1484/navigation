@@ -46,7 +46,7 @@ public class Map extends View {
     private float lastPointerDis;
 
     private float PERSON_STROKE_WIDTH = 50;
-    private PointF person;
+    public PointF person;
     private Paint personPaint;
 
     public Map(Context context, AttributeSet attrs) {
@@ -87,6 +87,18 @@ public class Map extends View {
         this.canvas = canvas;
         drawEvents();
 
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(15);
+        paint.setColor(Color.argb(255, 187, 255, 0));
+        Path path = new Path();
+        path.moveTo(1f, 2f);
+        path.rLineTo(0f, 7f);
+        path.rLineTo(8.5f, 0f);
+        path.rLineTo(0f, -2f);
+        path.transform(transformMatrix);
+        canvas.drawPath(path, paint);
+
         if (person != null) {
             float[] _person = new float[]{person.x, person.y};
             transformMatrix.mapPoints(_person);
@@ -121,7 +133,8 @@ public class Map extends View {
     public PointF setPerson(float x, float y, float strokeWidth) {
         person = new PointF(x, y);
         personPaint = new Paint();
-        personPaint.setColor(Color.RED);
+        personPaint.setColor(Color.argb(255, 0, 187, 255));
+        personPaint.setStrokeWidth(strokeWidth);
 
         return person;
     }

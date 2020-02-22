@@ -24,40 +24,37 @@ public class SearchItemActivity extends AppCompatActivity {
 
         itemInfoList = (LinearLayout) findViewById(R.id.item_info_list);
 
-    }
+        for (Integer key: globalVariable.idToItem.keySet()) {
+            Log.i("TAG", key.toString());
+            SearchInfo searchInfo = new SearchInfo(this);
+            searchInfo.setItem((globalVariable.idToItem.get(key)));
 
-    public void search(View v) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+            );
+            searchInfo.setLayoutParams(params);
 
-        SearchInfo searchInfo = new SearchInfo(this);
-        if (globalVariable.selectedItem.containsKey(3))
-            searchInfo.setItem(globalVariable.idToItem.get(5));
-        else
-            searchInfo.setItem(globalVariable.idToItem.get(3));
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        );
-        searchInfo.setLayoutParams(params);
-
-        itemInfoList.addView(searchInfo);
+            itemInfoList.addView(searchInfo);
+        }
 
     }
 
     public void addSelected(View v) {
-        if (globalVariable.selectedItem.containsKey(3)) {
-            globalVariable.selectedItem.put(
-                    5, new Pair<>(
-                            globalVariable.idToItem.get(5), 0
+        if (globalVariable.addedItem.containsKey(6)) {
+            globalVariable.addedItem.put(
+                    4, new Pair<>(
+                            globalVariable.idToItem.get(4), 1
                     )
             );
         } else {
-            globalVariable.selectedItem.put(
-                    3, new Pair<>(
-                            globalVariable.idToItem.get(3), 0
+            globalVariable.addedItem.put(
+                    6, new Pair<>(
+                            globalVariable.idToItem.get(6), 1
                     )
             );
         }
+        finish();
     }
 
 }

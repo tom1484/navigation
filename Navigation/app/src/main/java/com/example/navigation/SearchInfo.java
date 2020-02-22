@@ -20,8 +20,8 @@ public class SearchInfo extends LinearLayout {
 
     private JSONObject item;
 
-    private ImageView imageView;
-    private TextView textView;
+    private TextView itemName;
+    private TextView itemPrice;
 
     public SearchInfo(Context context) {
         this(context, null);
@@ -36,20 +36,16 @@ public class SearchInfo extends LinearLayout {
         View.inflate(context, R.layout.view_searchinfo, this);
         globalVariable = (GlobalVariable) context.getApplicationContext();
 
-        imageView = (ImageView) findViewById(R.id.item_image);
-        textView = (TextView) findViewById(R.id.item_name);
+        itemName = (TextView) findViewById(R.id.item_name);
+        itemPrice = (TextView) findViewById(R.id.item_price);
 
     }
 
     public void setItem(JSONObject _item) {
         item = _item;
         try {
-            if (globalVariable.selectedItem.containsKey(3)) {
-                imageView.setImageResource(R.drawable.im_item0);
-            } else {
-                imageView.setImageResource(R.drawable.im_item3);
-            }
-            textView.setText(item.getString("name"));
+            itemName.setText(item.getString("name"));
+            itemPrice.setText(item.getString("price"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
