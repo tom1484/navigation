@@ -8,7 +8,7 @@
         "price": "20"
     },
     {
-        "id": 122,
+        "id": 12,
         "barcode": "4712960020412",
         "name": "薑黃洗髮乳",
         "description": "",
@@ -99,6 +99,14 @@
         "id": 1,
         "barcode": "",
         "name": "有機包種茶禮盒",
+        "description": "",
+        "picture": "",
+        "price": "1200"
+    },
+    {
+        "id": 13,
+        "barcode": "4710347046512",
+        "name": "酒精擦",
         "description": "",
         "picture": "",
         "price": "1200"

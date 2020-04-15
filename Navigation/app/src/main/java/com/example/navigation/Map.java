@@ -97,7 +97,7 @@ public class Map extends View {
         path.rLineTo(8.5f, 0f);
         path.rLineTo(0f, -2f);
         path.transform(transformMatrix);
-        canvas.drawPath(path, paint);
+//        canvas.drawPath(path, paint);
 
         if (person != null) {
             float[] _person = new float[]{person.x, person.y};

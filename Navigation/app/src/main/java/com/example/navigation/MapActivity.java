@@ -24,11 +24,6 @@ public class MapActivity extends AppCompatActivity {
     private Map map;
     private PointF person;
 
-    private Button  up;
-    private Button  down;
-    private Button  left;
-    private Button  right;
-
     private float speed = 0.08f;
 
     @Override
@@ -47,52 +42,6 @@ public class MapActivity extends AppCompatActivity {
             @Override
             public void onGlobalLayout() {
                 centerPosition(null);
-            }
-        });
-
-        up = (Button) findViewById(R.id.up);
-        down = (Button) findViewById(R.id.down);
-        left = (Button) findViewById(R.id.left);
-        right = (Button) findViewById(R.id.right);
-
-        up.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-//                person = map.setPerson(person.x, person.y - 0.03f, 50);
-                person.set(person.x, person.y - speed);
-                map.centerPosition(person.x, person.y, 6);
-                map.invalidate();
-                return false;
-            }
-        });
-
-        down.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                person.set(person.x, person.y + speed);
-                map.centerPosition(person.x, person.y, 6);
-                map.invalidate();
-                return false;
-            }
-        });
-
-        left.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                person.set(person.x - speed, person.y);
-                map.centerPosition(person.x, person.y, 6);
-                map.invalidate();
-                return false;
-            }
-        });
-
-        right.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                person.set(person.x + speed, person.y);
-                map.centerPosition(person.x, person.y, 6);
-                map.invalidate();
-                return false;
             }
         });
 

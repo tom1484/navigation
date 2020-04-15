@@ -12,6 +12,7 @@ import android.util.Pair;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -43,6 +44,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     private View dialogView;
     private AlertDialog.Builder dialogBuilder;
+    private ImageView dialogItemImage;
     private CounterView dialogCounterView;
     private TextView dialogItemName;
     private TextView dialogItemPrice;
@@ -61,16 +63,19 @@ public class AddItemActivity extends AppCompatActivity {
                 .build();
 
         dialogView = LayoutInflater.from(this).inflate(R.layout.activity_addinfo, null, false);
+//        dialogItemImage = (ImageView) dialogItemImage.findViewById(R.id.add_item_image);
         dialogCounterView = (CounterView) dialogView.findViewById(R.id.add_counter);
         dialogItemName = (TextView) dialogView.findViewById(R.id.add_item_name);
         dialogItemPrice = (TextView) dialogView.findViewById(R.id.add_item_price);
+
+//        dialogItemImage.setImageResource(R.drawable.im_item0);
 
         init();
         mThread.start();
 
     }
 
-    private void init() {
+    private void setDialogBuilder() {
 
         dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -115,6 +120,9 @@ public class AddItemActivity extends AppCompatActivity {
             }
         });
         dialogBuilder.setNegativeButton("cancel",null);
+    }
+
+    private void init() {
 
         detect = new Runnable() {
             @Override
@@ -151,6 +159,8 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private void showItemInfo(JSONObject item) {
+
+        setDialogBuilder();
 
         try {
             dialogItemName.setText(item.getString("name"));
