@@ -76,16 +76,17 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="850px"
         android:layout_height="0px"
         android:layout_marginTop="100px"
         android:layout_marginBottom="100px"
+        android:background="@drawable/style_main_titlebox"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        android:background="@drawable/style_main_titlebox"
-        android:orientation="horizontal">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -206,6 +207,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/google_login" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/dis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

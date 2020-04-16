@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
@@ -39,9 +40,9 @@ public class BLEPositioning {
 
     private float x, y;
 
-    private Queue<Float> rssiValues;
-    private int averageNum = 5;
-    private float rssiSum = 0.0f, rssiAverage = 0.0f;
+    private Queue<Float> distanceValues;
+    private int averageNum = 10;
+    private float distanceSum = 0.0f, distance = 0.0f;
 
     Float[] position;
 
@@ -58,23 +59,23 @@ public class BLEPositioning {
 
         position = new Float[] {0f, 0f, 0f};
 
-        try {
-
-            JSONObject beacons = (JSONObject) new JSONObject(getJsonString(R.raw.beacon));
-            Iterator<String> keys = beacons.keys();
-
-            while (keys.hasNext()) {
-
-                String key = keys.next();
-                Float[] pos = new Float[] {0f, 0f, 0f};
-
-                pos[0] = (float) beacons.getJSONObject(key).getDouble("x");
-                pos[1] = (float) beacons.getJSONObject(key).getDouble("y");
-                pos[2] = (float) beacons.getJSONObject(key).getDouble("z");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        try {
+//
+//            JSONObject beacons = (JSONObject) new JSONObject(getJsonString(R.raw.beacon));
+//            Iterator<String> keys = beacons.keys();
+//
+//            while (keys.hasNext()) {
+//
+//                String key = keys.next();
+//                Float[] pos = new Float[] {0f, 0f, 0f};
+//
+//                pos[0] = (float) beacons.getJSONObject(key).getDouble("x");
+//                pos[1] = (float) beacons.getJSONObject(key).getDouble("y");
+//                pos[2] = (float) beacons.getJSONObject(key).getDouble("z");
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
         beaconPosition = new ArrayList<>();
         beaconDistance = new ArrayList<>();
@@ -90,7 +91,7 @@ public class BLEPositioning {
 
         handler = new Handler();
         mapBltScanResult = new HashMap<String, List<IBeaconRecord>>();
-        rssiValues = new LinkedList<Float>();
+        distanceValues = new LinkedList<Float>();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             bluetoothManager = (BluetoothManager) this.m_ctx.getSystemService(Context.BLUETOOTH_SERVICE);
@@ -103,8 +104,11 @@ public class BLEPositioning {
         return mBluetoothAdapter.isEnabled();
     }
 
-    public void startScan() {
+    private TextView textView;
 
+    public void startScan(TextView _textView) {
+
+        textView = _textView;
         Log.i("tag", "start");
 
         mapBltScanResult.clear();
@@ -122,9 +126,8 @@ public class BLEPositioning {
             int startByte = 2;
             boolean patternFound = false;
 
-            Log.i("tag", "got" + String.valueOf(device.toString()));
-            Log.i("tag", "got" + String.valueOf(rssi));
-            Log.i("tag", "got");
+//            Log.i("tag", "got" + String.valueOf(device.toString()));
+//            Log.i("tag", "got" + String.valueOf(rssi));
 
             while (startByte <= 5) {
                 if (((int) scanRecord[startByte + 2] & 0xff) == 0x02 && ((int) scanRecord[startByte + 3] & 0xff) == 0x15) {
@@ -133,8 +136,6 @@ public class BLEPositioning {
                 }
                 startByte++;
             }
-
-//            Log.i("tag", "got1");
 
             if (patternFound) {
 
@@ -155,8 +156,6 @@ public class BLEPositioning {
 //                if (major < 4660 || major > 4665)
 //                    return ;
 
-                Log.i("tag", "got2");
-
                 int minor = (scanRecord[startByte + 22] & 0xff) * 0x100
                         + (scanRecord[startByte + 23] & 0xff);
 
@@ -165,7 +164,7 @@ public class BLEPositioning {
                 int txPower = (scanRecord[startByte + 24]);
                 double distance = calculateAccuracy(txPower, rssi);
 
-                Log.i("tag", "Name：" + "\nMac：" + mac
+                Log.i("tag", "\nName：" + "\nMac：" + mac
                         + " \nUUID：" + uuid + "\nMajor：" + major + "\nMinor："
                         + minor + "\nTxPower：" + txPower + "\nrssi：" + rssi);
 
@@ -178,28 +177,37 @@ public class BLEPositioning {
         }
     };
 
+    float X = 0; // 狀態推算值
+    float P = 2; // 狀態推算值的共變異數
+    float F = 1; // 狀態轉換
+    float Q = 1; // 狀態預估模型的共變異數
+    float H = 1; // 測量值
+    float R = 5; // 測量值的共變異數矩陣
+    float I = 1;
+    float K = 0; // Kalman Gain
+
     public float calculateAccuracy(int txPower, float rssi) {
-        rssiValues.offer(rssi);
-        rssiSum += rssi;
-        if (rssiValues.size() > averageNum) {
-            rssiSum -= rssiValues.peek();
-            rssiValues.poll();
-        }
-        rssiAverage = rssiSum / rssiValues.size();
 
-        if (rssiAverage == 0) {
-            return -1.0f;
-        }
+//        return distance;
 
-        float ratio = rssiAverage * 1.0f / txPower;
+        X = X;
+        P = P + Q;
+        K = P / (P + R);
+        X = X + K * (rssi - X);
+        P = (I - K) * P;
 
-        if (ratio < 1.0)  {
-            return (float) Math.pow(ratio, 10);
+        float distance = (float)Math.pow(10, (double)(txPower - X) / (10f * 2f));
+
+        distanceValues.offer(distance);
+        distanceSum += distance;
+        if (distanceValues.size() > averageNum) {
+            distanceSum -= distanceValues.peek();
+            distanceValues.poll();
         }
-        else {
-            float accuracy = (0.89976f) * (float) Math.pow(ratio, 7.7095f) + 0.111f;
-            return accuracy;
-        }
+//        distance = distanceSum / distanceValues.size();
+        textView.setText(String.valueOf(distance));
+
+        return distance;
     }
 
     private char[] hexArray = { '0', '1', '2', '3', '4', '5', '6', '7', '8',

@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
-        bleScanner.startScan();
+        bleScanner.startScan((TextView)findViewById(R.id.dis));
 
 //        Intent intent = new Intent(this, CartActivity.class);
 //        startActivity(intent);
