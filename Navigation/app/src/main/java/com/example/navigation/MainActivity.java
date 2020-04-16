@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -31,10 +32,19 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
+
+    private String[] permissions = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
 
     private GlobalVariable globalVariable;
 
@@ -43,21 +53,39 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView anonymousLogin;
 
+    private BLEPositioning bleScanner;
+    private int REQUEST_ENABLE_BT = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[] {Manifest.permission.CAMERA}, 34);
-            while (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {}
-        }
+        requestAllPermissions();
         init();
 
         loadItems(R.raw.item);
 
+        bleScanner = new BLEPositioning(this);
+        if (!bleScanner.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
+        bleScanner.startScan();
+
 //        Intent intent = new Intent(this, CartActivity.class);
 //        startActivity(intent);
+
+    }
+
+    private void requestAllPermissions() {
+
+        for (String perm: permissions) {
+            if (checkSelfPermission(perm) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[] {perm}, 34);
+            }
+        }
+
     }
 
     private void init() {
