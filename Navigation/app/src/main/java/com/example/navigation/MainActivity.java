@@ -66,12 +66,14 @@ public class MainActivity extends AppCompatActivity {
 
         loadItems(R.raw.item);
 
-        bleScanner = new BLEPositioning(this);
+        bleScanner = new BLEPositioning(this, R.raw.beacon);
         if (!bleScanner.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
         bleScanner.startScan((TextView)findViewById(R.id.dis));
+
+        Log.i("tag", "ho");
 
 //        Intent intent = new Intent(this, CartActivity.class);
 //        startActivity(intent);

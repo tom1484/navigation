@@ -1,5 +1,6 @@
 package com.example.navigation;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -46,39 +47,42 @@ public class BLEPositioning {
 
     Float[] position;
 
-    ArrayList<Float[]> beaconPosition;
-    ArrayList<Float> beaconDistance;
+    Map<String, Float[]> beaconPosition;
+    Map<String, Float> beaconDistance;
 
     private int REQUEST_ENABLE_BT = 2;
 
-    public BLEPositioning(Context ctx) {
+    public BLEPositioning(Context ctx, int beaconFile) {
 
         super();
         this.m_ctx = ctx;
         initParam();
 
-        position = new Float[] {0f, 0f, 0f};
+        beaconPosition = new HashMap<>();
+        beaconDistance = new HashMap<>();
+        try {
 
-//        try {
-//
-//            JSONObject beacons = (JSONObject) new JSONObject(getJsonString(R.raw.beacon));
-//            Iterator<String> keys = beacons.keys();
-//
-//            while (keys.hasNext()) {
-//
-//                String key = keys.next();
-//                Float[] pos = new Float[] {0f, 0f, 0f};
-//
-//                pos[0] = (float) beacons.getJSONObject(key).getDouble("x");
-//                pos[1] = (float) beacons.getJSONObject(key).getDouble("y");
-//                pos[2] = (float) beacons.getJSONObject(key).getDouble("z");
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+            JSONObject beacons = (JSONObject) new JSONObject(getJsonString(beaconFile));
+            Iterator<String> keys = beacons.keys();
+            position = new Float[] {0f, 0f, 0f};
 
-        beaconPosition = new ArrayList<>();
-        beaconDistance = new ArrayList<>();
+            while (keys.hasNext()) {
+
+                String key = keys.next();
+                Float[] pos = new Float[] {0f, 0f, 0f};
+
+                pos[0] = (float) beacons.getJSONObject(key).getDouble("x");
+                pos[1] = (float) beacons.getJSONObject(key).getDouble("y");
+                pos[2] = (float) beacons.getJSONObject(key).getDouble("z");
+
+                beaconPosition.put(key, pos);
+                beaconDistance.put(key, 0f);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.i("tag", "ho");
 
     }
 
@@ -116,12 +120,17 @@ public class BLEPositioning {
             mBluetoothAdapter.startLeScan(bltScanCallback);
         }
 
+        textView.setText(String.valueOf("123"));
+
     }
 
     private BluetoothAdapter.LeScanCallback bltScanCallback = new BluetoothAdapter.LeScanCallback() {
+        @SuppressLint("NewApi")
         @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+
+            Log.i("tag", beaconDistance.toString());
 
             int startByte = 2;
             boolean patternFound = false;
@@ -153,7 +162,7 @@ public class BLEPositioning {
                 int major = (scanRecord[startByte + 20] & 0xff) * 0x100
                         + (scanRecord[startByte + 21] & 0xff);
 
-//                if (major < 4660 || major > 4665)
+//                if (major < 4660 || major > 4663)
 //                    return ;
 
                 int minor = (scanRecord[startByte + 22] & 0xff) * 0x100
@@ -162,13 +171,15 @@ public class BLEPositioning {
                 String mac = device.getAddress();
 
                 int txPower = (scanRecord[startByte + 24]);
-                double distance = calculateAccuracy(txPower, rssi);
+                float distance = calculateAccuracy(txPower, rssi);
 
                 Log.i("tag", "\nName：" + "\nMac：" + mac
                         + " \nUUID：" + uuid + "\nMajor：" + major + "\nMinor："
                         + minor + "\nTxPower：" + txPower + "\nrssi：" + rssi);
 
-                Log.i("tag","distance：" + calculateAccuracy(txPower, rssi));
+                Log.i("tag","distance：" + distance);
+
+                beaconDistance.replace(String.valueOf(major), distance);
 
 //                if (globalVariable.distance.containsKey(uuid))
 //                Log.i("tag", globalVariable.distance.toString());
@@ -180,7 +191,7 @@ public class BLEPositioning {
     float X = 0; // 狀態推算值
     float P = 2; // 狀態推算值的共變異數
     float F = 1; // 狀態轉換
-    float Q = 1; // 狀態預估模型的共變異數
+    float Q = 2; // 狀態預估模型的共變異數
     float H = 1; // 測量值
     float R = 5; // 測量值的共變異數矩陣
     float I = 1;
@@ -205,7 +216,7 @@ public class BLEPositioning {
             distanceValues.poll();
         }
 //        distance = distanceSum / distanceValues.size();
-        textView.setText(String.valueOf(distance));
+        textView.setText(String.valueOf(rssi) + " " + String.valueOf(distance));
 
         return distance;
     }
