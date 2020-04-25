@@ -57,6 +57,8 @@ public class Map extends View {
         mapEvents = globalVariable.mapEvents;
 
         transformMatrix = new Matrix();
+
+        setPerson(0, 0, 50);
     }
 
     private Pair<ArrayList<Float>, Integer> readNumbers(String path, int start) {
@@ -87,23 +89,7 @@ public class Map extends View {
         this.canvas = canvas;
         drawEvents();
 
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(15);
-        paint.setColor(Color.argb(255, 187, 255, 0));
-        Path path = new Path();
-        path.moveTo(1f, 2f);
-        path.rLineTo(0f, 7f);
-        path.rLineTo(8.5f, 0f);
-        path.rLineTo(0f, -2f);
-        path.transform(transformMatrix);
 //        canvas.drawPath(path, paint);
-
-        if (person != null) {
-            float[] _person = new float[]{person.x, person.y};
-            transformMatrix.mapPoints(_person);
-            canvas.drawCircle(_person[0], _person[1], PERSON_STROKE_WIDTH / 2, personPaint);
-        }
     }
 
     public void centerPosition(float x, float y, float width) {
@@ -146,6 +132,12 @@ public class Map extends View {
     private void drawEvents() {
         for (MapEvent mapEvent: mapEvents) {
             mapEvent.draw(canvas, transformMatrix);
+        }
+
+        if (person != null) {
+            float[] _person = new float[]{person.x, person.y};
+            transformMatrix.mapPoints(_person);
+            canvas.drawCircle(_person[0], _person[1], PERSON_STROKE_WIDTH / 2, personPaint);
         }
     }
 

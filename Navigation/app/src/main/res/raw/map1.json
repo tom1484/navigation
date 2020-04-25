@@ -1,0 +1,79 @@
+{
+    "border": "M0,0 l16,0 l0,10 l-16,0 z",
+    "events": [
+        {
+            "id": 0,
+            "type": "format",
+            "name": "",
+            "description": "",
+            "items": [],
+            "path": ""
+        },
+        {
+            "id": 0,
+            "type": "shelf",
+            "name": "test",
+            "description": "test",
+            "items": [
+                0,
+                1
+            ],
+            "path": "M0,0 l16,0 l0,1 l-16,0z"
+        },
+        {
+            "id": 1,
+            "type": "shelf",
+            "name": "test",
+            "description": "test",
+            "items": [
+                0,
+                1
+            ],
+            "path": "M1.6,2.2 l1.28,0 l0,6.4 l-1.28,0z"
+        },
+        {
+            "id": 2,
+            "type": "shelf",
+            "name": "test",
+            "description": "test",
+            "items": [
+                0,
+                1
+            ],
+            "path": "M4.48,2.2 l1.28,0 l0,6.4 l-1.28,0z"
+        },
+        {
+            "id": 3,
+            "type": "shelf",
+            "name": "test",
+            "description": "test",
+            "items": [
+                0,
+                1
+            ],
+            "path": "M7.36,2.2 l1.28,0 l0,6.4 l-1.28,0z"
+        },
+        {
+            "id": 4,
+            "type": "shelf",
+            "name": "test",
+            "description": "test",
+            "items": [
+                0,
+                1
+            ],
+            "path": "M10.24,2.2 l1.28,0 l0,6.4 l-1.28,0z"
+        },
+        {
+            "id": 5,
+            "type": "shelf",
+            "name": "test",
+            "description": "test",
+            "items": [
+                0,
+                1
+            ],
+            "path": "M13.12,2.2 l1.28,0 l0,6.4 l-1.28,0z"
+        }
+    ]
+}

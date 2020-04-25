@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
+import android.graphics.PointF;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -47,7 +48,7 @@ public class BLEPositioning {
 
     Float[] position;
 
-    Map<String, Float[]> beaconPosition;
+    Map<String, Vector3D> beaconPosition;
     Map<String, Float> beaconDistance;
 
     private int REQUEST_ENABLE_BT = 2;
@@ -75,7 +76,7 @@ public class BLEPositioning {
                 pos[1] = (float) beacons.getJSONObject(key).getDouble("y");
                 pos[2] = (float) beacons.getJSONObject(key).getDouble("z");
 
-                beaconPosition.put(key, pos);
+                beaconPosition.put(key, new Vector3D(pos[0], pos[1], pos[2]));
                 beaconDistance.put(key, 0f);
             }
         } catch (JSONException e) {
@@ -113,14 +114,20 @@ public class BLEPositioning {
     public void startScan(TextView _textView) {
 
         textView = _textView;
-        Log.i("tag", "start");
 
         mapBltScanResult.clear();
         if (mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()) {
             mBluetoothAdapter.startLeScan(bltScanCallback);
         }
 
-        textView.setText(String.valueOf("123"));
+    }
+
+    public void startScan() {
+
+        mapBltScanResult.clear();
+        if (mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()) {
+            mBluetoothAdapter.startLeScan(bltScanCallback);
+        }
 
     }
 
@@ -130,13 +137,8 @@ public class BLEPositioning {
         @Override
         public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
 
-            Log.i("tag", beaconDistance.toString());
-
             int startByte = 2;
             boolean patternFound = false;
-
-//            Log.i("tag", "got" + String.valueOf(device.toString()));
-//            Log.i("tag", "got" + String.valueOf(rssi));
 
             while (startByte <= 5) {
                 if (((int) scanRecord[startByte + 2] & 0xff) == 0x02 && ((int) scanRecord[startByte + 3] & 0xff) == 0x15) {
@@ -173,16 +175,14 @@ public class BLEPositioning {
                 int txPower = (scanRecord[startByte + 24]);
                 float distance = calculateAccuracy(txPower, rssi);
 
-                Log.i("tag", "\nName：" + "\nMac：" + mac
-                        + " \nUUID：" + uuid + "\nMajor：" + major + "\nMinor："
-                        + minor + "\nTxPower：" + txPower + "\nrssi：" + rssi);
+//                Log.i("tag", "\nName：" + "\nMac：" + mac
+//                        + " \nUUID：" + uuid + "\nMajor：" + major + "\nMinor："
+//                        + minor + "\nTxPower：" + txPower + "\nrssi：" + rssi);
+//
+//                Log.i("tag","distance：" + distance);
 
-                Log.i("tag","distance：" + distance);
-
+//                Log.i("tag", beaconDistance.toString());
                 beaconDistance.replace(String.valueOf(major), distance);
-
-//                if (globalVariable.distance.containsKey(uuid))
-//                Log.i("tag", globalVariable.distance.toString());
 
             }
         }
@@ -199,8 +199,6 @@ public class BLEPositioning {
 
     public float calculateAccuracy(int txPower, float rssi) {
 
-//        return distance;
-
         X = X;
         P = P + Q;
         K = P / (P + R);
@@ -208,6 +206,7 @@ public class BLEPositioning {
         P = (I - K) * P;
 
         float distance = (float)Math.pow(10, (double)(txPower - X) / (10f * 2f));
+//        distance = (float)Math.pow(10, (double)(txPower - rssi) / (10f * 2f));
 
         distanceValues.offer(distance);
         distanceSum += distance;
@@ -215,10 +214,35 @@ public class BLEPositioning {
             distanceSum -= distanceValues.peek();
             distanceValues.poll();
         }
-//        distance = distanceSum / distanceValues.size();
-        textView.setText(String.valueOf(rssi) + " " + String.valueOf(distance));
+        distance = distanceSum / distanceValues.size();
+//        textView.setText(String.valueOf(X) + " " + String.valueOf(distance));
 
         return distance;
+    }
+
+    public PointF gradientDescent() {
+
+        Vector3D pos = new Vector3D();
+        Vector3D grad = new Vector3D();
+        float leaningRate = 0.01f;
+
+        for (int i = 0; i < 100; i ++) {
+
+            for (HashMap.Entry<String, Vector3D> entry: beaconPosition.entrySet()) {
+                String beacon = entry.getKey();
+                Vector3D beaconPos = entry.getValue();
+                float dis = pos.dis(beaconPos);
+                float c = (dis - beaconDistance.get(beacon)) / (dis * beaconPosition.size());
+                grad = grad.add(pos.minus(beaconPos).mul(c));
+            }
+
+            pos = pos.minus(grad.mul(leaningRate));
+
+        }
+
+//        Log.i("tag", pos.toString());
+        return new PointF(pos.vector[0], pos.vector[1]);
+
     }
 
     private char[] hexArray = { '0', '1', '2', '3', '4', '5', '6', '7', '8',
