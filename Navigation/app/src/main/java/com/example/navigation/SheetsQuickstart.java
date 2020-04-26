@@ -59,12 +59,13 @@ public class SheetsQuickstart {
         }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-        Log.i("tag", "Name, Major");
+        File tokens_directory_path = new File(TOKENS_DIRECTORY_PATH);
+        tokens_directory_path.mkdirs();
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+                .setDataStoreFactory(new FileDataStoreFactory(tokens_directory_path))
                 .setAccessType("offline")
                 .build();
         Log.i("tag", "Name, Major");
