@@ -205,7 +205,9 @@ public class BLEPositioning {
         X = X + K * (rssi - X);
         P = (I - K) * P;
 
-        float distance = (float)Math.pow(10, (double)(txPower - X) / (10f * 2f));
+        float ratio = X * 1.0f/txPower;
+        float distance =  (0.89976f) * (float) Math.pow(ratio, 7.7095) + 0.111f;
+//        float distance = (float)Math.pow(10, (double)(txPower - X) / (10f * 2f));
 //        distance = (float)Math.pow(10, (double)(txPower - rssi) / (10f * 2f));
 
         distanceValues.offer(distance);
@@ -215,7 +217,6 @@ public class BLEPositioning {
             distanceValues.poll();
         }
         distance = distanceSum / distanceValues.size();
-//        textView.setText(String.valueOf(X) + " " + String.valueOf(distance));
 
         return distance;
     }

@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -78,8 +79,14 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i("tag", "ho");
 
-//        Intent intent = new Intent(this, M.class);
-//        startActivity(intent);
+        SheetsQuickstart sheet = new SheetsQuickstart();
+        try {
+            sheet.test(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
 
     }
 

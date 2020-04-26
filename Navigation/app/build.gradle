@@ -45,4 +45,8 @@ dependencies {
     implementation 'com.android.support:support-v4:13.0.+'
     implementation 'com.uriio:beacons-android:1.5.2'
 //    implementation files('libs/onebeacon-android-1.0.26-javadoc.jar')
+
+    implementation 'com.google.api-client:google-api-client:1.30.4'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.30.4'
+    implementation 'com.google.apis:google-api-services-sheets:v4-rev581-1.25.0'
 }
