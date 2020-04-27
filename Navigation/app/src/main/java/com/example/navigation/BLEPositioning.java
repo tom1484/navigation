@@ -42,9 +42,9 @@ public class BLEPositioning {
 
     private float x, y;
 
-    private Queue<Float> distanceValues;
+    private Map<String, Queue<Float>> distanceValues;
     private int averageNum = 10;
-    private float distanceSum = 0.0f, distance = 0.0f;
+    private Map<String, Float> distanceSum;
 
     Float[] position;
 
@@ -61,6 +61,8 @@ public class BLEPositioning {
 
         beaconPosition = new HashMap<>();
         beaconDistance = new HashMap<>();
+        distanceValues = new HashMap<>();
+        distanceSum = new HashMap<>();
         try {
 
             JSONObject beacons = (JSONObject) new JSONObject(getJsonString(beaconFile));
@@ -70,14 +72,17 @@ public class BLEPositioning {
             while (keys.hasNext()) {
 
                 String key = keys.next();
-                Float[] pos = new Float[] {0f, 0f, 0f};
+                Float[] pos = new Float[3];
+
+                distanceValues.put(key, new LinkedList<Float>());
+                distanceSum.put(key, 0f);
 
                 pos[0] = (float) beacons.getJSONObject(key).getDouble("x");
                 pos[1] = (float) beacons.getJSONObject(key).getDouble("y");
                 pos[2] = (float) beacons.getJSONObject(key).getDouble("z");
 
                 beaconPosition.put(key, new Vector3D(pos[0], pos[1], pos[2]));
-                beaconDistance.put(key, 0f);
+                beaconDistance.put(key, 1e-2f);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -96,7 +101,6 @@ public class BLEPositioning {
 
         handler = new Handler();
         mapBltScanResult = new HashMap<String, List<IBeaconRecord>>();
-        distanceValues = new LinkedList<Float>();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             bluetoothManager = (BluetoothManager) this.m_ctx.getSystemService(Context.BLUETOOTH_SERVICE);
@@ -173,7 +177,7 @@ public class BLEPositioning {
                 String mac = device.getAddress();
 
                 int txPower = (scanRecord[startByte + 24]);
-                float distance = calculateAccuracy(txPower, rssi);
+                float distance = calculateAccuracy(txPower, rssi, String.valueOf(major));
 
 //                Log.i("tag", "\nName：" + "\nMac：" + mac
 //                        + " \nUUID：" + uuid + "\nMajor：" + major + "\nMinor："
@@ -181,8 +185,8 @@ public class BLEPositioning {
 //
 //                Log.i("tag","distance：" + distance);
 
-//                Log.i("tag", beaconDistance.toString());
-                beaconDistance.replace(String.valueOf(major), distance);
+                if (distance < 5.0f)
+                    beaconDistance.replace(String.valueOf(major), distance);
 
             }
         }
@@ -191,13 +195,14 @@ public class BLEPositioning {
     float X = 0; // 狀態推算值
     float P = 2; // 狀態推算值的共變異數
     float F = 1; // 狀態轉換
-    float Q = 2; // 狀態預估模型的共變異數
+    float Q = 5; // 狀態預估模型的共變異數
     float H = 1; // 測量值
-    float R = 5; // 測量值的共變異數矩陣
+    float R = 10; // 測量值的共變異數矩陣
     float I = 1;
     float K = 0; // Kalman Gain
 
-    public float calculateAccuracy(int txPower, float rssi) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public float calculateAccuracy(int txPower, float rssi, String major) {
 
         X = X;
         P = P + Q;
@@ -205,19 +210,25 @@ public class BLEPositioning {
         X = X + K * (rssi - X);
         P = (I - K) * P;
 
-        float ratio = X * 1.0f/txPower;
+//        float ratio = X * 1.0f / txPower;
+        float ratio = rssi * 1.0f / txPower;
         float distance =  (0.89976f) * (float) Math.pow(ratio, 7.7095) + 0.111f;
 //        float distance = (float)Math.pow(10, (double)(txPower - X) / (10f * 2f));
-//        distance = (float)Math.pow(10, (double)(txPower - rssi) / (10f * 2f));
+//        distance = (float) Math.pow(10, (double)(txPower - rssi) / (10f * 2f));
 
-        distanceValues.offer(distance);
-        distanceSum += distance;
-        if (distanceValues.size() > averageNum) {
-            distanceSum -= distanceValues.peek();
-            distanceValues.poll();
+        Queue<Float> distances = distanceValues.get(major);
+        distances.add(distance);
+        distanceSum.replace(major, distanceSum.get(major) + distance);
+        if (distances.size() > averageNum) {
+            distanceSum.replace(major, distanceSum.get(major) - distanceValues.get(major).peek());
+            distances.poll();
         }
-        distance = distanceSum / distanceValues.size();
+        distance = distanceSum.get(major) / distances.size();
+        distanceValues.replace(major, distances);
 
+//        Log.i("tmp", beaconDistance.toString());
+        Log.i("tmp", String.valueOf(rssi));
+        Log.i("tmp", String.valueOf(distance));
         return distance;
     }
 
@@ -227,13 +238,14 @@ public class BLEPositioning {
         Vector3D grad = new Vector3D();
         float leaningRate = 0.01f;
 
-        for (int i = 0; i < 100; i ++) {
+        for (int i = 0; i < 50; i ++) {
 
             for (HashMap.Entry<String, Vector3D> entry: beaconPosition.entrySet()) {
                 String beacon = entry.getKey();
                 Vector3D beaconPos = entry.getValue();
-                float dis = pos.dis(beaconPos);
+                float dis = pos.dis(beaconPos) + 1e-2f;
                 float c = (dis - beaconDistance.get(beacon)) / (dis * beaconPosition.size());
+//                Log.i("tmp", String.valueOf(dis));
                 grad = grad.add(pos.minus(beaconPos).mul(c));
             }
 
@@ -241,7 +253,8 @@ public class BLEPositioning {
 
         }
 
-//        Log.i("tag", pos.toString());
+//        Log.i("tmp", pos.toString());
+
         return new PointF(pos.vector[0], pos.vector[1]);
 
     }

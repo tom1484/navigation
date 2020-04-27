@@ -49,6 +49,7 @@ public class MapActivity extends AppCompatActivity {
         TimerTask task = new TimerTask() {
             public void run() {
                 map.person = bleScanner.gradientDescent();
+//                Log.i("tmp", map.person.toString());
                 map.invalidate();
             }
         };
