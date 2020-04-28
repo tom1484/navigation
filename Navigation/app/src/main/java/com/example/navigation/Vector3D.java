@@ -53,9 +53,13 @@ public class Vector3D {
     public float dis(Vector3D v) {
         float dis = 0;
         for (int i = 0; i < 3; i ++) {
-            dis += (vector[i] - v.vector[i]) * (vector[i] - v.vector[i]);
+            dis += Math.pow(vector[i] - v.vector[i], 2);
         }
         return (float) Math.sqrt(dis);
+    }
+
+    public float get(int i) {
+        return vector[i];
     }
 
 }

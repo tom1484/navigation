@@ -13,17 +13,17 @@
         android:id="@+id/constraintLayout"
         android:layout_width="850px"
         android:layout_height="400px"
-        android:layout_marginTop="100px"
+        android:layout_marginTop="16dp"
         android:background="@drawable/style_main_titlebox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0px"-->
-<!--            android:layout_weight="5"-->
-<!--            android:orientation="horizontal">-->
+        <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="0px"-->
+        <!--            android:layout_weight="5"-->
+        <!--            android:orientation="horizontal">-->
 
         <ImageView
             android:id="@+id/main_shopping_cart"
@@ -49,13 +49,13 @@
             app:layout_constraintStart_toEndOf="@+id/main_shopping_cart"
             app:layout_constraintTop_toTopOf="@+id/main_shopping_cart" />
 
-<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+        <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0px"-->
-<!--            android:layout_weight="3"-->
-<!--            android:orientation="horizontal">-->
+        <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="0px"-->
+        <!--            android:layout_weight="3"-->
+        <!--            android:orientation="horizontal">-->
 
         <TextView
             android:id="@+id/main_title2"
@@ -70,7 +70,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+        <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -79,8 +79,8 @@
         android:id="@+id/linearLayout3"
         android:layout_width="850px"
         android:layout_height="0px"
-        android:layout_marginTop="100px"
-        android:layout_marginBottom="100px"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/style_main_titlebox"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"

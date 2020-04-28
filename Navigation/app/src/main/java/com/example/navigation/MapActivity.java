@@ -38,6 +38,7 @@ public class MapActivity extends AppCompatActivity {
 
         map = (Map) findViewById(R.id.map);
         map.loadEvents(R.raw.map);
+//        map.setText(textView);
 
         bleScanner = new BLEPositioning(this, R.raw.beacon);
         if (!bleScanner.isEnabled()) {

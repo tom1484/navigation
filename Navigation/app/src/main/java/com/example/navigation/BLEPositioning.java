@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import Jama.Matrix;
+
 public class BLEPositioning {
 
     private Context m_ctx;
@@ -82,7 +84,8 @@ public class BLEPositioning {
                 pos[2] = (float) beacons.getJSONObject(key).getDouble("z");
 
                 beaconPosition.put(key, new Vector3D(pos[0], pos[1], pos[2]));
-                beaconDistance.put(key, 1e-2f);
+//                beaconDistance.put(key, 1e-2f);
+                beaconDistance.put(key, 1.717f);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -168,9 +171,6 @@ public class BLEPositioning {
                 int major = (scanRecord[startByte + 20] & 0xff) * 0x100
                         + (scanRecord[startByte + 21] & 0xff);
 
-//                if (major < 4660 || major > 4663)
-//                    return ;
-
                 int minor = (scanRecord[startByte + 22] & 0xff) * 0x100
                         + (scanRecord[startByte + 23] & 0xff);
 
@@ -227,35 +227,73 @@ public class BLEPositioning {
         distanceValues.replace(major, distances);
 
 //        Log.i("tmp", beaconDistance.toString());
-        Log.i("tmp", String.valueOf(rssi));
-        Log.i("tmp", String.valueOf(distance));
-        return distance;
+//        return distance;
+        return 1.717f;
     }
 
     public PointF gradientDescent() {
 
-        Vector3D pos = new Vector3D();
-        Vector3D grad = new Vector3D();
-        float leaningRate = 0.01f;
+        int N = beaconPosition.size();
+        Matrix X = new Matrix(N - 1, 3);
+        Matrix Y = new Matrix(N - 1, 1);
 
-        for (int i = 0; i < 50; i ++) {
+        Vector3D bposN = beaconPosition.get(String.valueOf(N));
+        float dn = beaconDistance.get(String.valueOf(N));
+        for (int i = 0; i < N - 1; i ++) {
+            String I = String.valueOf(i + 1);
+            Vector3D bpos = beaconPosition.get(I);
 
-            for (HashMap.Entry<String, Vector3D> entry: beaconPosition.entrySet()) {
-                String beacon = entry.getKey();
-                Vector3D beaconPos = entry.getValue();
-                float dis = pos.dis(beaconPos) + 1e-2f;
-                float c = (dis - beaconDistance.get(beacon)) / (dis * beaconPosition.size());
-//                Log.i("tmp", String.valueOf(dis));
-                grad = grad.add(pos.minus(beaconPos).mul(c));
-            }
+            X.set(i, 0, bposN.get(0) - bpos.get(0) + 1e-2);
+            X.set(i, 1, bposN.get(1) - bpos.get(1) + 1e-2);
+            X.set(i, 2, bposN.get(2) - bpos.get(2) + 1e-2);
 
-            pos = pos.minus(grad.mul(leaningRate));
-
+            float d = beaconDistance.get(I);
+            float posSqSum = 0;
+            for (int j = 0; j < 3; j ++)
+                posSqSum += bposN.get(i) * bposN.get(i) - bpos.get(i) * bpos.get(i);
+            Y.set(i, 0, (d * d - dn * dn + posSqSum) / 2);
         }
 
-//        Log.i("tmp", pos.toString());
+        Matrix pos = X.transpose().times(X).inverse().times(X.transpose()).times(Y);
+//        Matrix a = X.transpose().times(X);
+//        a = a.inverse();
+//        Log.i("tmp", String.valueOf(a.getRowDimension()));
+//        Log.i("tmp", String.valueOf(a.getColumnDimension()));
+//        String s = "";
+//        for (int i = 0; i < N - 1; i ++) {
+//            for (int j = 0; j < 3; j ++)
+//                s += String.valueOf(X.get(i, j)) + " ";
+//            s += "\n";
+//        }
+//        Log.i("tmp", s);
 
-        return new PointF(pos.vector[0], pos.vector[1]);
+//        Vector3D pos = new Vector3D();
+//        Vector3D grad = new Vector3D();
+//        float leaningRate = 0.01f;
+
+//        for (int i = 0; i < 100; i ++) {
+//
+//            float loss = 0;
+//
+//            for (HashMap.Entry<String, Vector3D> entry: beaconPosition.entrySet()) {
+//                String beacon = entry.getKey();
+//                Vector3D beaconPos = entry.getValue();
+//                float dis = pos.dis(beaconPos) + 1e-2f;
+//                float c = (dis - beaconDistance.get(beacon)) / (dis * beaconDistance.size());
+//
+//                grad = grad.add(pos.minus(beaconPos).mul(c));
+//                loss += (dis - beaconDistance.get(beacon)) / (2 * beaconDistance.size());
+//            }
+//            Log.i("tmp", "p " + pos.toString());
+//            Log.i("tmp", "l " + String.valueOf(loss));
+//            Log.i("tmp", "g " + grad.toString());
+//
+//            pos = pos.minus(grad.mul(leaningRate));
+//
+//        }
+
+//        return new PointF((float) pos.get(0, 0), (float) pos.get(1, 0));
+        return new PointF(1.5f, 1.5f);
 
     }
 

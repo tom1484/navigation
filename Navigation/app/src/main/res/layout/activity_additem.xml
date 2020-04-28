@@ -29,10 +29,10 @@
         android:layout_width="810px"
         android:layout_height="1080px"
         android:layout_gravity="center"
-        android:layout_marginTop="200px"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <com.example.navigation.ActivityBar
         android:layout_width="match_parent"
