@@ -57,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView anonymousLogin;
 
-    private BLEPositioning bleScanner;
-    private int REQUEST_ENABLE_BT = 2;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
