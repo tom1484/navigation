@@ -9,4 +9,41 @@
     tools:ignore="PxUsage"
     android:background="@drawable/im_main_background">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="140dp"
+        android:orientation="vertical"
+        android:background="@drawable/style_rounded_rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/toMap"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/ic_map"
+            android:onClick="toMap"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginBottom="140dp"
+        android:orientation="vertical"
+        android:background="@drawable/style_rounded_rectangle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/toShoppingCart"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/ic_shopping_cart"
+            android:onClick="toShoppingCart"/>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

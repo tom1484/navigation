@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.marketnavigation.navigation.MapActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +54,20 @@ public class MainActivity extends AppCompatActivity {
                 requestPermissions(new String[] {perm}, 34);
             }
         }
+
+    }
+
+    public void toMap(View v) {
+
+        Intent intent = new Intent(this, MapActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void toShoppingCart(View v) {
+
+        Intent intent = new Intent(this, MapActivity.class);
+        startActivity(intent);
 
     }
 
