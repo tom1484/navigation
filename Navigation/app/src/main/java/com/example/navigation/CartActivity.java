@@ -150,8 +150,12 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void close(View v) {
+
         globalVariable.addedItem = new HashMap<>();
         globalVariable.selectedItem = new HashMap<>();
+
+        redraw();
+
     }
 
     public void selectVISA(View v) {
