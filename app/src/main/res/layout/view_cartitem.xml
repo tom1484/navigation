@@ -102,6 +102,7 @@
             android:layout_weight="16">
 
             <Button
+                android:id="@+id/confirm_remove"
                 android:layout_width="100px"
                 android:layout_height="100px"
                 app:layout_constraintBottom_toBottomOf="parent"

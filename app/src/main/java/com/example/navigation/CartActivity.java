@@ -74,6 +74,7 @@ public class CartActivity extends AppCompatActivity {
 
             CartItem item = new CartItem(this);
             try {
+                item.setKey(key);
                 item.setItemName(
                         jsonObject.getString("name")
                 );
@@ -81,6 +82,7 @@ public class CartActivity extends AppCompatActivity {
                 item.setTotalPrice("$" + String.valueOf(
                         jsonObject.getInt("price") * amount
                 ));
+                item.confirm_remove.setTag(key);
 
                 total += jsonObject.getInt("price") * amount;
             } catch (JSONException e) {
@@ -94,35 +96,45 @@ public class CartActivity extends AppCompatActivity {
 
         }
 
-        for (Integer key: globalVariable.selectedItem.keySet()) {
-
-            JSONObject jsonObject = globalVariable.selectedItem.get(key).first;
-            int amount = globalVariable.selectedItem.get(key).second;
-
-            CartItem item = new CartItem(this);
-            try {
-                item.setItemName(
-                        jsonObject.getString("name")
-                );
-                item.setItemAmount(String.valueOf(amount));
-                item.setTotalPrice("$" + String.valueOf(
-                        jsonObject.getInt("price") * amount
-                ));
-
-                total += jsonObject.getInt("price") * amount;
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            selected_list.addView(item, new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            ));
-
-        }
+//        for (Integer key: globalVariable.selectedItem.keySet()) {
+//
+//            JSONObject jsonObject = globalVariable.selectedItem.get(key).first;
+//            int amount = globalVariable.selectedItem.get(key).second;
+//
+//            CartItem item = new CartItem(this);
+//            try {
+//                item.setKey(key);
+//                item.setItemName(
+//                        jsonObject.getString("name")
+//                );
+//                item.setItemAmount(String.valueOf(amount));
+//                item.setTotalPrice("$" + String.valueOf(
+//                        jsonObject.getInt("price") * amount
+//                ));
+//
+//                total += jsonObject.getInt("price") * amount;
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//            selected_list.addView(item, new ViewGroup.LayoutParams(
+//                    ViewGroup.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.WRAP_CONTENT
+//            ));
+//
+//        }
 
         total_text.setText("$" + String.valueOf(total));
         Log.i("TAG", String.valueOf(globalVariable.selectedItem));
+
+    }
+
+    public void close(View v) {
+
+        int key = (int) v.getTag();
+        Log.i("TAG", String.valueOf(key));
+        globalVariable.addedItem.remove(key);
+        redraw();
 
     }
 
@@ -130,6 +142,8 @@ public class CartActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, SearchItemActivity.class);
         startActivity(intent);
+
+        redraw();
 
     }
 
@@ -140,15 +154,6 @@ public class CartActivity extends AppCompatActivity {
         dialogBuilder.setView(dialogView);
         checkoutDialog = dialogBuilder.create();
         checkoutDialog.show();
-
-    }
-
-    public void close(View v) {
-
-        globalVariable.addedItem = new HashMap<>();
-        globalVariable.selectedItem = new HashMap<>();
-
-        redraw();
 
     }
 

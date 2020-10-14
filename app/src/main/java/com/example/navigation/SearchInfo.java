@@ -54,16 +54,16 @@ public class SearchInfo extends LinearLayout {
                     @Override
                     public void onClick(View v) {
                         Log.i("TAG", (String) itemName.getText());
-                        if (globalVariable.selectedItem.containsKey(key)) {
-                            globalVariable.selectedItem.put(
+                        if (globalVariable.addedItem.containsKey(key)) {
+                            globalVariable.addedItem.put(
                                     key, new Pair<>(
                                             globalVariable.idToItem.get(key),
-                                            globalVariable.selectedItem.get(key).second + 1
+                                            globalVariable.addedItem.get(key).second + 1
                                     )
                             );
                         }
                         else {
-                            globalVariable.selectedItem.put(
+                            globalVariable.addedItem.put(
                                     key, new Pair<>(
                                             globalVariable.idToItem.get(key), 1
                                     )

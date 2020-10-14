@@ -90,14 +90,8 @@ public class AddItemActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = globalVariable.barcodeToItem.get(barcode.displayValue);
                     int id = jsonObject.getInt("id");
-                    if (globalVariable.selectedItem.containsKey(id)) {
-                        globalVariable.addedItem.put(
-                                id, new Pair<>(
-                                        jsonObject, 0
-                                )
-                        );
-                        globalVariable.selectedItem.remove(id);
-                    } else if (globalVariable.addedItem.containsKey(id)) {
+                    if (globalVariable.addedItem.containsKey(id)) {
+                        Log.i("TAG", "String.valueOf(id)");
                         int number = globalVariable.addedItem.get(id).second;
                         globalVariable.addedItem.remove(id);
                         globalVariable.addedItem.put(
