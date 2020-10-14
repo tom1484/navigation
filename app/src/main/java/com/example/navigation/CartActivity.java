@@ -53,17 +53,6 @@ public class CartActivity extends AppCompatActivity {
         selected_list = (LinearLayout) findViewById(R.id.selected_list);
         total_text = (TextView)  findViewById(R.id.total);
 
-//        globalVariable.addedItem.clear();
-//        globalVariable.addedItem.put(
-//                3, new Pair<>(
-//                        globalVariable.idToItem.get(3), 1
-//                )
-//        );
-//        globalVariable.addedItem.put(
-//                5, new Pair<>(
-//                        globalVariable.idToItem.get(5), 1
-//                )
-//        );
         drawItems();
     }
 
@@ -108,14 +97,19 @@ public class CartActivity extends AppCompatActivity {
         for (Integer key: globalVariable.selectedItem.keySet()) {
 
             JSONObject jsonObject = globalVariable.selectedItem.get(key).first;
+            int amount = globalVariable.selectedItem.get(key).second;
 
             CartItem item = new CartItem(this);
             try {
                 item.setItemName(
                         jsonObject.getString("name")
                 );
-                item.setItemAmount("0");
-                item.setTotalPrice("$0");
+                item.setItemAmount(String.valueOf(amount));
+                item.setTotalPrice("$" + String.valueOf(
+                        jsonObject.getInt("price") * amount
+                ));
+
+                total += jsonObject.getInt("price") * amount;
             } catch (JSONException e) {
                 e.printStackTrace();
             }

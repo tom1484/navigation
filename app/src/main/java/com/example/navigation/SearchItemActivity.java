@@ -27,7 +27,7 @@ public class SearchItemActivity extends AppCompatActivity {
         for (Integer key: globalVariable.idToItem.keySet()) {
             Log.i("TAG", key.toString());
             SearchInfo searchInfo = new SearchInfo(this);
-            searchInfo.setItem((globalVariable.idToItem.get(key)));
+            searchInfo.setItem(globalVariable.idToItem.get(key), key);
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -38,23 +38,6 @@ public class SearchItemActivity extends AppCompatActivity {
             itemInfoList.addView(searchInfo);
         }
 
-    }
-
-    public void addSelected(View v) {
-        if (globalVariable.selectedItem.containsKey(6)) {
-            globalVariable.selectedItem.put(
-                    4, new Pair<>(
-                            globalVariable.idToItem.get(4), 1
-                    )
-            );
-        } else {
-            globalVariable.selectedItem.put(
-                    6, new Pair<>(
-                            globalVariable.idToItem.get(6), 1
-                    )
-            );
-        }
-        finish();
     }
 
 }
